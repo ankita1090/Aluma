@@ -35,7 +35,7 @@ export const AuroraBackground = ({
             "--pink-400": "#FF5C8A", // Vibrant rose
             "--pink-500": "#FF4D6D", // Bold magenta
             "--white": "#fff",
-            "--transparent": "transparent"
+            "--transparent": "transparent",
           }}
         >
           <div

@@ -26,7 +26,7 @@ export default function Home() {
 
               {/* Main Heading with Gradient */}
               <div className="space-y-4">
-                <h1 className="text-7xl lg:text-8xl font-black bg-gradient-to-br from-pink-200 via-rose-500 to-pink-600 bg-clip-text text-transparent drop-shadow-2xl leading-none tracking-tight">
+                <h1 className="text-7xl lg:text-8xl font-black bg-gradient-to-br from-pink-200 via-rose-500 to-pink-500 bg-clip-text text-transparent drop-shadow-2xl leading-none tracking-tight">
                   Aluma
                 </h1>
                 <div className="w-24 h-1 bg-gradient-to-r from-pink-400 to-rose-500 rounded-full"></div>
@@ -59,7 +59,6 @@ export default function Home() {
                 </button>
               </div>
 
-              
             </div>
 
             {/* Right Side: Luxury Logo Section */}
