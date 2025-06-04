@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import userRoutes from './routes/userRoutes.js'
 import dotenv from 'dotenv';
+import ElenaAIRoutes from './routes/ElenaAIRoutes.js';
 
 dotenv.config();
 
@@ -14,6 +15,7 @@ app.use(express.json());
 
 
 app.use("/api/", userRoutes)
+app.use('/api', ElenaAIRoutes);
 
 
 mongoose.connect(process.env.MONGO_URI)

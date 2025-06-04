@@ -4,10 +4,10 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { ThreeCards } from "@/sections/threeCards";
 import Quotes from "@/sections/Quotes";
+import { FocusCards } from "@/components/ui/focus-cards";
 
 export default function Home() {
   const router = useRouter();
-
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -30,7 +30,7 @@ export default function Home() {
               >
                 {/* Premium Badge */}
                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/20 bg-white/10 backdrop-blur-sm w-fit">
-                  <div className="w-2 h-2 rounded-full bg-gradient-to-r from-pink-400 to-rose-400 animate-pulse"></div>
+                  <div className="w-2 h-2 rounded-full bg-gradient-to-r from-white to-gray-300 animate-pulse"></div>
                   <span className="text-sm font-medium text-white/90 tracking-wide">
                     PREMIUM WELLNESS
                   </span>
@@ -38,26 +38,26 @@ export default function Home() {
 
                 {/* Main Heading with Gradient */}
                 <div className="space-y-4">
-                  <h1 className="text-7xl lg:text-8xl font-black bg-gradient-to-br from-pink-200 via-rose-500 to-pink-500 bg-clip-text text-transparent drop-shadow-2xl leading-none tracking-tight">
+                  <h1 className="text-7xl lg:text-8xl font-black bg-gradient-to-br from-sky-200 via-cyan-300 to-blue-500 bg-clip-text text-transparent drop-shadow-2xl leading-none tracking-tight">
                     Welcome, to Aluma
                   </h1>
-                  <div className="w-24 h-1 bg-gradient-to-r from-pink-400 to-rose-500 rounded-full"></div>
+                  <div className="w-24 h-1 bg-gradient-to-r from-blue-400 to-blue-600 rounded-full"></div>
                 </div>
 
                 {/* Subtitle with enhanced typography */}
                 <p className="text-2xl lg:text-3xl font-light text-white/90 leading-relaxed tracking-wide">
                   Nurture your mind with
-                  <span className="font-medium bg-gradient-to-r from-pink-300 to-rose-300 bg-clip-text text-transparent">
+                  <span className="font-medium bg-gradient-to-r from-blue-300 to-blue-500 bg-clip-text text-transparent">
                     {" "}
                     peace
                   </span>
                   ,
-                  <span className="font-medium bg-gradient-to-r from-pink-300 to-rose-300 bg-clip-text text-transparent">
+                  <span className="font-medium bg-gradient-to-r from-blue-300 to-blue-500 bg-clip-text text-transparent">
                     {" "}
                     positivity
                   </span>
                   , and
-                  <span className="font-medium bg-gradient-to-r from-pink-300 to-rose-300 bg-clip-text text-transparent">
+                  <span className="font-medium bg-gradient-to-r from-blue-300 to-blue-500 bg-clip-text text-transparent">
                     {" "}
                     support
                   </span>
@@ -65,13 +65,13 @@ export default function Home() {
                 </p>
 
                 {/* Description */}
-                <p className="text-xl text-white/70 font-light leading-relaxed max-w-lg">
+                <p className="text-xl text-white font-light leading-relaxed max-w-lg">
                   Experience a sanctuary designed for your mental wellness
                   journey. Where luxury meets mindfulness.
                 </p>
               </div>
 
-              {/* Right Side: Luxury Logo Section */}
+              {/* Right Side: Logo Section */}
               <div
                 className={`flex justify-center lg:justify-end transition-all duration-1000 delay-300 transform ${
                   isVisible
@@ -81,15 +81,15 @@ export default function Home() {
               >
                 <div className="relative group">
                   {/* Outer glow ring */}
-                  <div className="absolute inset-0 rounded-full bg-gradient-to-br from-pink-400/30 to-rose-500/30 blur-3xl group-hover:blur-2xl transition-all duration-500 animate-pulse"></div>
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-300/30 to-blue-600/30 blur-3xl group-hover:blur-2xl transition-all duration-500 animate-pulse"></div>
 
                   {/* Main logo container */}
                   <div className="relative w-80 h-80 lg:w-96 lg:h-96 rounded-full bg-gradient-to-br from-white/20 to-white/5 backdrop-blur-xl border border-white/20 shadow-2xl flex items-center justify-center group-hover:scale-105 transition-all duration-500">
                     {/* Inner gradient ring */}
-                    <div className="absolute inset-4 rounded-full bg-gradient-to-br from-pink-400/20 to-rose-500/20 animate-spin-slow"></div>
+                    <div className="absolute inset-4 rounded-full bg-gradient-to-br from-blue-300/20 to-blue-600/20 animate-spin-slow"></div>
 
-                    {/* Logo placeholder with enhanced styling */}
-                    <div className="relative z-10 w-48 h-48 lg:w-56 lg:h-56 rounded-full bg-gradient-to-br from-pink-100/90 to-rose-100/90 backdrop-blur-sm flex items-center justify-center shadow-xl">
+                    {/* Logo */}
+                    <div className="relative z-10 w-48 h-48 lg:w-56 lg:h-56 rounded-full bg-gradient-to-br from-blue-100/90 to-blue-200/90 backdrop-blur-sm flex items-center justify-center shadow-xl">
                       <img
                         src="/aluma_logo.png"
                         alt="Aluma Logo"
@@ -98,45 +98,47 @@ export default function Home() {
                     </div>
 
                     {/* Floating particles */}
-                    <div className="absolute top-8 right-8 w-2 h-2 rounded-full bg-pink-300 animate-bounce opacity-60"></div>
-                    <div className="absolute bottom-12 left-12 w-1.5 h-1.5 rounded-full bg-rose-300 animate-bounce delay-300 opacity-60"></div>
-                    <div className="absolute top-20 left-8 w-1 h-1 rounded-full bg-pink-400 animate-bounce delay-700 opacity-60"></div>
+                    <div className="absolute top-8 right-8 w-2 h-2 rounded-full bg-blue-300 animate-bounce opacity-60"></div>
+                    <div className="absolute bottom-12 left-12 w-1.5 h-1.5 rounded-full bg-blue-200 animate-bounce delay-300 opacity-60"></div>
+                    <div className="absolute top-20 left-8 w-1 h-1 rounded-full bg-blue-400 animate-bounce delay-700 opacity-60"></div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        
-        {/* Spacer with wine color */}
-        <div className="w-screen bg-[#B31457] h-[10px] -mx-6"></div>
-        
-        {/* Cards section - completely seamless and centered */}
-        <div className="w-screen bg-gradient-to-b from-[#a0114d] via-[#C32C70] to-[#D24F8E] -mx-6 px-6">
+
+        {/* Spacer with deep blue */}
+        <div className="w-screen bg-[#134BB3] h-[10px] -mx-6"></div>
+
+        {/* Cards section with blue gradient */}
+        <div className="w-screen bg-gradient-to-b from-[#1D5DCB] via-[#4D86E0] to-[#7AA7F2] -mx-6 px-6">
           <div className="flex justify-center items-center w-full">
-            <ThreeCards />
-          </div>
-        </div>
-        <div className="w-screen bg-gradient-to-b from-[#D24F8E] via-[#C32C70] to-[#D24F8E] -mx-6 px-6">
-          <div className="flex justify-center items-center w-full">
-            <Quotes />
+            <FocusCards />
           </div>
         </div>
 
-        {/* Add custom styles for animations and gap removal */}
+        {/* Quotes section with matching theme */}
+        <div className="w-screen bg-gradient-to-b from-[#7AA7F2] via-[#4D86E0] to-[#C5DFFF] -mx-6 px-6">
+          <div className="flex justify-center items-center w-full">
+          <Quotes/>
+          </div>
+        </div>
+
+        {/* Global Styles */}
         <style jsx global>{`
           * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
           }
-          
+
           body {
             margin: 0 !important;
             padding: 0 !important;
             overflow-x: hidden;
           }
-          
+
           @keyframes spin-slow {
             from {
               transform: rotate(0deg);

@@ -42,10 +42,12 @@ export const login = async (req, res) => {
 
   try {
     // Find user by email
+    console.log("hi u are inside the login controller");
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(400).json({ error: 'Invalid email or password' });
     }
+    // console.log("this is the user found: ", user);
 
     // Compare provided password with hashed password
     const isMatch = await bcrypt.compare(password, user.password);
@@ -53,12 +55,16 @@ export const login = async (req, res) => {
       return res.status(400).json({ error: 'Invalid email or password' });
     }
 
+    // console.log("User logged in successfully:", user.email);
+
     // Generate JWT token
     const token = jwt.sign(
       { _id: user._id, email: user.email },
       process.env.JWT_SECRET,
       { expiresIn: '7d' }
     );
+
+    console.log("token successfully:", token);
 
     // Return user data and token
     res.json({ user, token });
