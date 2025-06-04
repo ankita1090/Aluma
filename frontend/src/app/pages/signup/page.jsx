@@ -82,7 +82,7 @@ function Signup() {
               Already a user?{" "}
               <span
                 className="text-primary cursor-pointer underline"
-                onClick={() => router.push("/pages/Login")}
+                onClick={() => router.push("/pages/login")}
               >
                 Login
               </span>

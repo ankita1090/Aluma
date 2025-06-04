@@ -18,7 +18,7 @@ function Login() {
 
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/login`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/login`,
         {
           method: "POST",
           headers: {
@@ -33,7 +33,7 @@ function Login() {
       if (response.ok) {
         localStorage.setItem("token", data.token);
         localStorage.setItem("user", JSON.stringify(data.user));
-        router.push("/"); // ✅ Redirect using Next.js router
+        router.push("/pages/Dashboard"); // ✅ Redirect using Next.js router
       } else {
         alert(data.message || "Login failed");
       }
@@ -78,6 +78,15 @@ function Login() {
             >
               {loading ? "Logging in..." : "Login"}
             </button>
+            <p className="text-center mt-2 text-sm">
+  New user?{" "}
+  <span
+    className="text-primary cursor-pointer underline"
+    onClick={() => router.push("/pages/signup")}
+  >
+    Singup
+  </span>
+</p>
           </div>
         </form>
       </div>

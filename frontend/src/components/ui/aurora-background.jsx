@@ -12,7 +12,7 @@ export const AuroraBackground = ({
     <main>
       <div
         className={cn(
-          "transition-bg relative flex h-[100vh] flex-col items-center justify-center bg-[#FFD3DC] text-slate-900",
+          "transition-bg relative flex h-[100vh] flex-col items-center justify-center bg-[#801336] text-white",
           className
         )}
         {...props}
@@ -21,19 +21,19 @@ export const AuroraBackground = ({
           className="absolute inset-0 overflow-hidden"
           style={{
             "--aurora":
-              "repeating-linear-gradient(100deg,#FF4D6D_10%,#FF5C8A_15%,#FF85A1_20%,#FF9AAE_25%,#FFD3DC_30%)",
+              "repeating-linear-gradient(100deg,#B31457_10%,#C32C70_15%,#D24F8E_20%,#DD78A7_25%,#F2B6D0_30%)",
 
             "--soft-gradient":
-              "repeating-linear-gradient(100deg,#FF85A1_0%,#FF85A1_7%,transparent_10%,transparent_12%,#FF5C8A_16%)",
+              "repeating-linear-gradient(100deg,#D24F8E_0%,#D24F8E_7%,transparent_10%,transparent_12%,#C32C70_16%)",
 
             "--white-gradient":
               "repeating-linear-gradient(100deg,#fff_0%,#fff_7%,transparent_10%,transparent_12%,#fff_16%)",
 
-            "--pink-100": "#FFD3DC", // Very light pink
-            "--pink-200": "#FF9AAE", // Soft pink
-            "--pink-300": "#FF85A1", // Mid pink
-            "--pink-400": "#FF5C8A", // Vibrant rose
-            "--pink-500": "#FF4D6D", // Bold magenta
+            "--pink-100": "#F2B6D0", // light pink-purple
+            "--pink-200": "#DD78A7", // soft mauve
+            "--pink-300": "#D24F8E", // rose-magenta
+            "--pink-400": "#C32C70", // bright wine
+            "--pink-500": "#B31457", // rich plum
             "--white": "#fff",
             "--transparent": "transparent",
           }}
@@ -55,7 +55,7 @@ export const AuroraBackground = ({
               after:mix-blend-difference 
               after:content-[""]`,
               showRadialGradient &&
-                `[mask-image:radial-gradient(ellipse_at_100%_0%,#FF5C8A_10%,var(--transparent)_70%)]`
+                `[mask-image:radial-gradient(ellipse_at_100%_0%,#C32C70_10%,var(--transparent)_70%)]`
             )}
           ></div>
         </div>
