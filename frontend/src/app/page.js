@@ -1,8 +1,11 @@
 'use client'
 import { AuroraBackground } from "@/components/ui/aurora-background";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const router = useRouter();
+
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -46,18 +49,15 @@ export default function Home() {
               </p>
 
               {/* Enhanced Buttons */}
-              <div className="flex flex-col sm:flex-row gap-4 mt-8">
-                <button className="group relative px-8 py-4 rounded-2xl bg-gradient-to-r from-pink-500 to-rose-500 text-white font-semibold text-lg shadow-2xl hover:shadow-pink-500/25 transition-all duration-300 transform hover:scale-105 hover:-translate-y-1">
-                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-pink-400 to-rose-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                  <span className="relative">Begin Your Journey</span>
-                </button>
-                
-                <button className="group px-8 py-4 rounded-2xl border-2 border-white/30 text-white font-semibold text-lg backdrop-blur-sm hover:bg-white/10 hover:border-white/50 transition-all duration-300 transform hover:scale-105">
-                  <span className="bg-gradient-to-r from-pink-200 to-rose-200 bg-clip-text text-transparent group-hover:from-white group-hover:to-white transition-all duration-300">
-                    Learn More
-                  </span>
-                </button>
-              </div>
+               <div className="flex flex-col sm:flex-row gap-4 mt-8">
+      <button
+        onClick={() => router.push("/pages/signup")}
+        className="group relative px-8 py-4 rounded-2xl bg-gradient-to-r from-pink-500 to-rose-500 text-white font-semibold text-lg shadow-2xl hover:shadow-pink-500/25 transition-all duration-300 transform hover:scale-105 hover:-translate-y-1"
+      >
+        <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-pink-400 to-rose-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+        <span className="relative">Begin Your Journey</span>
+      </button>
+    </div>
 
             </div>
 
