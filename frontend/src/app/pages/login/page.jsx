@@ -1,44 +1,44 @@
-"use client"; // Required for client components
+"use client"; // ✅ Needed when using hooks like useState and useRouter in app directory
 
 import React, { useState } from "react";
-import { useRouter } from "next/navigation"; // Correct hook for App Router
+import { useRouter } from "next/navigation";
 
-function Signup() {
+function Login() {
   const [form, setForm] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
-  const router = useRouter(); // Replace useNavigate with useRouter
+  const router = useRouter(); // ✅ Next.js routing hook
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSignup = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
-    try {
-      console.log("Backend URL:", process.env.NEXT_PUBLIC_BACKEND_URL);
 
+    try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/signup`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/login`,
         {
           method: "POST",
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "application/json"
           },
-          body: JSON.stringify(form),
+          body: JSON.stringify(form)
         }
       );
 
       const data = await response.json();
+
       if (response.ok) {
         localStorage.setItem("token", data.token);
         localStorage.setItem("user", JSON.stringify(data.user));
-        router.push("/pages/Dashboard");
+        router.push("/"); // ✅ Redirect using Next.js router
       } else {
-        alert(data.message || "Signup failed");
+        alert(data.message || "Login failed");
       }
     } catch (error) {
-      alert("An error occurred during signup. Please try again.");
+      alert("An error occurred during login. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -47,8 +47,8 @@ function Signup() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-base-200">
       <div className="card w-full max-w-sm shadow-xl bg-base-100">
-        <form onSubmit={handleSignup} className="card-body">
-          <h2 className="card-title justify-center">Sign Up</h2>
+        <form onSubmit={handleLogin} className="card-body">
+          <h2 className="card-title justify-center">Login</h2>
 
           <input
             type="email"
@@ -76,17 +76,8 @@ function Signup() {
               className="btn btn-primary w-full"
               disabled={loading}
             >
-              {loading ? "Signing up..." : "Sign Up"}
+              {loading ? "Logging in..." : "Login"}
             </button>
-            <p className="text-center mt-2 text-sm">
-              Already a user?{" "}
-              <span
-                className="text-primary cursor-pointer underline"
-                onClick={() => router.push("/pages/Login")}
-              >
-                Login
-              </span>
-            </p>
           </div>
         </form>
       </div>
@@ -94,4 +85,4 @@ function Signup() {
   );
 }
 
-export default Signup;
+export default Login;
