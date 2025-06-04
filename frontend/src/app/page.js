@@ -1,103 +1,114 @@
-import Image from "next/image";
+'use client'
+import { AuroraBackground } from "@/components/ui/aurora-background";
+import { useState, useEffect } from "react";
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.js
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [isVisible, setIsVisible] = useState(false);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  useEffect(() => {
+    setIsVisible(true);
+  }, []);
+
+  return (
+    <AuroraBackground>
+      <div className="relative z-10 min-h-screen flex items-center justify-center px-6">
+        <div className="w-full max-w-7xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-8 items-center">
+            {/* Left Side: Enhanced Text Content */}
+            <div className={`flex flex-col gap-8 transition-all duration-1000 transform ${
+              isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
+            }`}>
+              {/* Premium Badge */}
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/20 bg-white/10 backdrop-blur-sm w-fit">
+                <div className="w-2 h-2 rounded-full bg-gradient-to-r from-pink-400 to-rose-400 animate-pulse"></div>
+                <span className="text-sm font-medium text-white/90 tracking-wide">PREMIUM WELLNESS</span>
+              </div>
+
+              {/* Main Heading with Gradient */}
+              <div className="space-y-4">
+                <h1 className="text-7xl lg:text-8xl font-black bg-gradient-to-br from-pink-200 via-rose-500 to-pink-600 bg-clip-text text-transparent drop-shadow-2xl leading-none tracking-tight">
+                  Aluma
+                </h1>
+                <div className="w-24 h-1 bg-gradient-to-r from-pink-400 to-rose-500 rounded-full"></div>
+              </div>
+
+              {/* Subtitle with enhanced typography */}
+              <p className="text-2xl lg:text-3xl font-light text-white/90 leading-relaxed tracking-wide">
+                Nurture your mind with 
+                <span className="font-medium bg-gradient-to-r from-pink-300 to-rose-300 bg-clip-text text-transparent"> peace</span>,
+                <span className="font-medium bg-gradient-to-r from-pink-300 to-rose-300 bg-clip-text text-transparent"> positivity</span>, and
+                <span className="font-medium bg-gradient-to-r from-pink-300 to-rose-300 bg-clip-text text-transparent"> support</span>.
+              </p>
+
+              {/* Description */}
+              <p className="text-xl text-white/70 font-light leading-relaxed max-w-lg">
+                Experience a sanctuary designed for your mental wellness journey. Where luxury meets mindfulness.
+              </p>
+
+              {/* Enhanced Buttons */}
+              <div className="flex flex-col sm:flex-row gap-4 mt-8">
+                <button className="group relative px-8 py-4 rounded-2xl bg-gradient-to-r from-pink-500 to-rose-500 text-white font-semibold text-lg shadow-2xl hover:shadow-pink-500/25 transition-all duration-300 transform hover:scale-105 hover:-translate-y-1">
+                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-pink-400 to-rose-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <span className="relative">Begin Your Journey</span>
+                </button>
+                
+                <button className="group px-8 py-4 rounded-2xl border-2 border-white/30 text-white font-semibold text-lg backdrop-blur-sm hover:bg-white/10 hover:border-white/50 transition-all duration-300 transform hover:scale-105">
+                  <span className="bg-gradient-to-r from-pink-200 to-rose-200 bg-clip-text text-transparent group-hover:from-white group-hover:to-white transition-all duration-300">
+                    Learn More
+                  </span>
+                </button>
+              </div>
+
+              
+            </div>
+
+            {/* Right Side: Luxury Logo Section */}
+            <div className={`flex justify-center lg:justify-end transition-all duration-1000 delay-300 transform ${
+              isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
+            }`}>
+              <div className="relative group">
+                {/* Outer glow ring */}
+                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-pink-400/30 to-rose-500/30 blur-3xl group-hover:blur-2xl transition-all duration-500 animate-pulse"></div>
+                
+                {/* Main logo container */}
+                <div className="relative w-80 h-80 lg:w-96 lg:h-96 rounded-full bg-gradient-to-br from-white/20 to-white/5 backdrop-blur-xl border border-white/20 shadow-2xl flex items-center justify-center group-hover:scale-105 transition-all duration-500">
+                  {/* Inner gradient ring */}
+                  <div className="absolute inset-4 rounded-full bg-gradient-to-br from-pink-400/20 to-rose-500/20 animate-spin-slow"></div>
+                  
+                  {/* Logo placeholder with enhanced styling */}
+                  <div className="relative z-10 w-48 h-48 lg:w-56 lg:h-56 rounded-full bg-gradient-to-br from-pink-100/90 to-rose-100/90 backdrop-blur-sm flex items-center justify-center shadow-xl">
+                    <img
+                      src="/aluma_logo_2.png"
+                      alt="Aluma Logo"
+                      className="w-32 h-32 lg:w-40 lg:h-40 object-contain filter drop-shadow-lg"
+                    />
+                  </div>
+                  
+                  {/* Floating particles */}
+                  <div className="absolute top-8 right-8 w-2 h-2 rounded-full bg-pink-300 animate-bounce opacity-60"></div>
+                  <div className="absolute bottom-12 left-12 w-1.5 h-1.5 rounded-full bg-rose-300 animate-bounce delay-300 opacity-60"></div>
+                  <div className="absolute top-20 left-8 w-1 h-1 rounded-full bg-pink-400 animate-bounce delay-700 opacity-60"></div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      </div>
+
+      {/* Add custom styles for animations */}
+      <style jsx>{`
+        @keyframes spin-slow {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
+        }
+        .animate-spin-slow {
+          animation: spin-slow 20s linear infinite;
+        }
+      `}</style>
+    </AuroraBackground>
   );
 }
