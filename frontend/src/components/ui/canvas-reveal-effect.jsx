@@ -139,7 +139,7 @@ const Shader = ({ source, uniforms, maxFps = 60 }) => {
 const ShaderMaterial = ({ source, uniforms, maxFps }) => {
   const { size } = useThree();
   const ref = useRef();
-  let lastFrameTime = 0;
+  let lastFrameTime = 0;  
 
   useFrame(({ clock }) => {
     if (!ref.current) return;

@@ -3,6 +3,7 @@ import { AuroraBackground } from "@/components/ui/aurora-background";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { ThreeCards } from "@/sections/threeCards";
+import Quotes from "@/sections/Quotes";
 
 export default function Home() {
   const router = useRouter();
@@ -14,9 +15,9 @@ export default function Home() {
   }, []);
 
   return (
-    <AuroraBackground>
-      <main className="min-h-screen flex flex-col">
-        <div className="relative z-10 min-h-screen flex items-start justify-center px-6 pt-24 lg:pt-20">
+    <AuroraBackground className="w-full m-0 p-0">
+      <main className="min-h-screen flex flex-col m-0 p-0">
+        <div className="relative z-10 min-h-screen flex items-center justify-center px-6 pt-24 lg:pt-20 pb-4">
           <div className="w-full max-w-7xl mx-auto">
             <div className="grid lg:grid-cols-2 gap-8 items-center">
               {/* Left Side: Enhanced Text Content */}
@@ -106,13 +107,36 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div className="mt-16 bg-gradient-to-b from-[#FF4D6D] via-[#FF5C8A] to-[#FF85A1]">
-  <ThreeCards />
-</div>
+        
+        {/* Spacer with wine color */}
+        <div className="w-screen bg-[#B31457] h-[10px] -mx-6"></div>
+        
+        {/* Cards section - completely seamless and centered */}
+        <div className="w-screen bg-gradient-to-b from-[#a0114d] via-[#C32C70] to-[#D24F8E] -mx-6 px-6">
+          <div className="flex justify-center items-center w-full">
+            <ThreeCards />
+          </div>
+        </div>
+        <div className="w-screen bg-gradient-to-b from-[#D24F8E] via-[#C32C70] to-[#D24F8E] -mx-6 px-6">
+          <div className="flex justify-center items-center w-full">
+            <Quotes />
+          </div>
+        </div>
 
-
-        {/* Add custom styles for animations */}
-        <style jsx>{`
+        {/* Add custom styles for animations and gap removal */}
+        <style jsx global>{`
+          * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+          }
+          
+          body {
+            margin: 0 !important;
+            padding: 0 !important;
+            overflow-x: hidden;
+          }
+          
           @keyframes spin-slow {
             from {
               transform: rotate(0deg);
