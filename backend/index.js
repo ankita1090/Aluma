@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import userRoutes from './routes/userRoutes.js'
 import dotenv from 'dotenv';
-import ElenaAIRoutes from './routes/ElenaAIRoutes.js';
+import ChatbotRoutes from './routes/ChatbotRoutes.js';
 
 dotenv.config();
 
@@ -15,7 +15,7 @@ app.use(express.json());
 
 
 app.use("/api/", userRoutes)
-app.use('/api', ElenaAIRoutes);
+app.use('/api/', ChatbotRoutes);
 
 
 mongoose.connect(process.env.MONGO_URI)

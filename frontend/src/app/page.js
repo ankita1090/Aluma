@@ -2,6 +2,7 @@
 import { AuroraBackground } from "@/components/ui/aurora-background";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { ContainerTextFlip } from "@/components/ui/container-text-flip";
 
 export default function Home() {
   const router = useRouter();
@@ -39,11 +40,9 @@ export default function Home() {
 
               {/* Subtitle with enhanced typography */}
               <p className="text-2xl lg:text-3xl font-light text-white/90 leading-relaxed tracking-wide">
-                Nurture your mind with
-                <span className="font-medium bg-gradient-to-r from-cyan-300 to-blue-300 bg-clip-text text-transparent"> peace</span>,
-                <span className="font-medium bg-gradient-to-r from-cyan-300 to-blue-300 bg-clip-text text-transparent"> positivity</span>, and
-                <span className="font-medium bg-gradient-to-r from-cyan-300 to-blue-300 bg-clip-text text-transparent"> support</span>.
-              </p>
+                  Nurture your mind with <br />
+                  <ContainerTextFlip />
+                </p>
 
               {/* Description */}
               <p className="text-xl text-white/70 font-light leading-relaxed max-w-lg">
