@@ -210,13 +210,17 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="w-screen bg-gradient-to-b from-[#7AA7F2] via-[#4D86E0] to-[#C5DFFF] -mx-6 px-6">
+        <div className="w-screen bg-gradient-to-b from-[#7AA7F2] via-[#4D86E0] to-[#C5DFFF] -mx-6 px-6 pt-4">
           <div className="flex justify-center items-center w-full">
             <Music />
           </div>
         </div>
 
-        <div className="w-full bg-gradient-to-b from-[#134BB3] via-[#1D5DCB] to-[#4D86E0] py-20 min-h-[400px]">
+        <button onClick={() => router.push("/pages/spotifyLogin")}>
+          spotify login
+        </button>
+
+        {/* <div className="w-full bg-gradient-to-b from-[#134BB3] via-[#1D5DCB] to-[#4D86E0] py-20 min-h-[400px]"> */}
   {/* <div className="container mx-auto px-4 max-w-7xl">
     
     <div className="relative">
@@ -228,7 +232,7 @@ export default function Home() {
       />
     </div>
   </div> */}
-</div>
+{/* </div> */}
 
         {/* Global Styles */}
         <style jsx global>{`
