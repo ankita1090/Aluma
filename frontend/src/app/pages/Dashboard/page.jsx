@@ -111,7 +111,7 @@ export default function Home() {
                 {/* Main Heading with Gradient */}
                 <div className="space-y-4">
                   <h1 className="font-poppins text-7xl lg:text-8xl font-black bg-gradient-to-br from-sky-200 via-cyan-300 to-blue-500 bg-clip-text text-transparent drop-shadow-2xl leading-none tracking-tight">
-                    Welcome {name}
+                    fsfsfewfcawec {name}
                   </h1>
                   <div className="w-24 h-1 bg-gradient-to-r from-blue-400 to-blue-600 rounded-full"></div>
                 </div>
