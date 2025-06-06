@@ -1,5 +1,6 @@
 import { Geist, Geist_Mono, Poppins } from "next/font/google";
 import "./globals.css";
+import { AuroraBackground } from "@/components/ui/aurora-background";
 
 
 const geistSans = Geist({
@@ -28,11 +29,13 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      {/* <AuroraBackground> */}
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${poppins.variable} antialiased`}
       >
         {children}
       </body>
+      {/* </AuroraBackground> */}
     </html>
   );
 }

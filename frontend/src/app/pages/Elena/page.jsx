@@ -3,7 +3,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { AuroraBackground } from "@/components/ui/aurora-background";
 import axios from "axios";
 
-const Jess = () => {
+const Elena = () => {
   const [input, setInput] = useState("");
   const synthRef = useRef(null);
   const currentUtteranceRef = useRef(null);
@@ -164,7 +164,9 @@ const Jess = () => {
           <div className="flex items-center justify-between p-6 bg-gradient-to-r from-pink-500/20 to-rose-500/20 border-b border-white/10">
             <div className="flex items-center space-x-4">
               <div className="w-12 h-12 rounded-full bg-gradient-to-br from-pink-400 to-rose-500 flex items-center justify-center shadow-lg">
-                <span className="text-white font-bold text-lg">E</span>
+                <span className="text-white font-bold text-lg">
+                <img src="/elena_logo.png" alt="" className="rounded-full" />
+                </span>
               </div>
               <div>
                 <h2 className="text-xl font-semibold text-white">Elena</h2>
@@ -224,7 +226,9 @@ const Jess = () => {
 
                 {message.type === "bot" && (
                   <div className="w-8 h-8 rounded-full bg-gradient-to-br from-pink-400 to-rose-500 flex items-center justify-center mr-3 mt-1 flex-shrink-0">
-                    <span className="text-white font-medium text-xs">E</span>
+                    <span className="text-white font-medium text-xs ">
+                      E
+                    </span>
                   </div>
                 )}
               </div>
@@ -296,4 +300,4 @@ const Jess = () => {
   );
 };
 
-export default Jess;
+export default Elena;

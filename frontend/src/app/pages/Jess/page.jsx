@@ -36,7 +36,7 @@ const Jess = () => {
 
   const getPreferredVoice = () => {
     const voices = window.speechSynthesis.getVoices();
-  
+
     // Try common male voices first
     const preferredMaleVoices = [
       "Google UK English Male",
@@ -45,17 +45,18 @@ const Jess = () => {
       "Daniel", // macOS
       "en-US-Wavenet-D", // Chrome TTS extension voice (sometimes available)
     ];
-  
+
     for (const name of preferredMaleVoices) {
       const voice = voices.find((v) => v.name === name);
       if (voice) return voice;
     }
-  
+
     // Fallback to any en-US voice
-    const fallback = voices.find((v) => v.lang === "en-US" || v.lang === "en-GB");
+    const fallback = voices.find(
+      (v) => v.lang === "en-US" || v.lang === "en-GB"
+    );
     return fallback || voices[0]; // Last resort
   };
-  
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -82,9 +83,16 @@ const Jess = () => {
     setIsLoading(true);
 
     try {
+      const token = localStorage.getItem("token") || "";
+
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/JessAI`,
-        { message: input }
+        { message: input },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // <-- send token here
+          },
+        }
       );
 
       const botMessage = {
@@ -142,30 +150,36 @@ const Jess = () => {
   };
 
   return (
-    <div className="min-h-screen">
-      <AuroraBackground className="fixed inset-0 -z-10" />
-
+    <div className="min-h-screen relative">
+      <AuroraBackground className="absolute inset-0 -z-10 h-full w-full" />
       <div className="relative z-10 min-h-screen flex items-center justify-center p-4">
-        <div className="w-full max-w-4xl h-[80vh] flex flex-col bg-white/10 backdrop-blur-xl rounded-2xl border border-white/20 shadow-2xl overflow-hidden">
+        <div className="w-full max-w-5xl h-[85vh] flex flex-col bg-slate-900/20 backdrop-blur-2xl rounded-3xl border border-blue-300/30 shadow-[0_0_50px_rgba(59,130,246,0.15)] overflow-hidden">
           {/* Header */}
-          <div className="flex items-center justify-between p-6 bg-gradient-to-r from-pink-500/20 to-rose-500/20 border-b border-white/10">
-            <div className="flex items-center space-x-4">
-              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-pink-400 to-rose-500 flex items-center justify-center shadow-lg">
-                <span className="text-white font-bold text-lg">J</span>
+          <div className="flex items-center justify-between p-8 bg-gradient-to-r from-blue-500/10 via-sky-500/10 to-cyan-500/10 border-b border-blue-300/20">
+            <div className="flex items-center space-x-5">
+              <div className="relative">
+                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-400 via-sky-400 to-cyan-400 flex items-center justify-center shadow-lg shadow-blue-500/25">
+                  <span className="text-white font-bold text-xl">
+                    <img src="/jess_logo.png" alt="" className="rounded-2xl" />
+                  </span>
+                </div>
+                <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-emerald-400 rounded-full border-2 border-slate-900 animate-pulse"></div>
               </div>
               <div>
-                <h2 className="text-xl font-semibold text-white">Jess</h2>
-                <p className="text-sm text-white/70">Your Wellness Companion</p>
+                <h2 className="text-2xl font-bold text-white tracking-tight">Jess</h2>
+                <p className="text-sm text-blue-200/80 font-medium">Your Wellness Companion</p>
               </div>
             </div>
-            <div className="flex items-center space-x-2">
-              <div className="w-3 h-3 rounded-full bg-green-400 animate-pulse"></div>
-              <span className="text-sm text-white/70">Online</span>
+            <div className="flex items-center space-x-3">
+              <div className="flex items-center space-x-2 bg-slate-800/30 backdrop-blur-sm rounded-full px-4 py-2 border border-blue-400/20">
+                <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse shadow-sm shadow-emerald-400/50"></div>
+                <span className="text-sm text-blue-100/90 font-medium">Online</span>
+              </div>
             </div>
           </div>
-
+  
           {/* Messages Container */}
-          <div className="flex-1 overflow-y-auto p-6 space-y-4 scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent">
+          <div className="flex-1 overflow-y-auto p-8 space-y-6 scrollbar-thin scrollbar-thumb-blue-400/20 scrollbar-track-transparent">
             {messages.map((message, index) => (
               <div
                 key={index}
@@ -174,91 +188,91 @@ const Jess = () => {
                 }`}
               >
                 <div
-                  className={`max-w-[70%] ${
+                  className={`max-w-[75%] ${
                     message.type === "user" ? "order-2" : "order-1"
                   }`}
                 >
                   <div
-                    className={`p-4 rounded-2xl shadow-lg relative ${
+                    className={`p-5 rounded-3xl shadow-lg relative backdrop-blur-sm ${
                       message.type === "user"
-                        ? "bg-gradient-to-br from-pink-500 to-rose-600 text-white ml-4"
-                        : "bg-white/90 backdrop-blur-sm text-gray-800 mr-4"
+                        ? "bg-gradient-to-br from-blue-500 via-blue-600 to-sky-600 text-white ml-4 shadow-blue-500/20"
+                        : "bg-slate-100/95 backdrop-blur-md text-slate-800 mr-4 border border-white/20 shadow-slate-900/10"
                     }`}
                   >
-                    <div className="flex items-start space-x-2">
-                      <p className="text-sm leading-relaxed">
+                    <div className="flex items-start space-x-3">
+                      <p className="text-sm leading-relaxed font-medium">
                         {message.content}
                       </p>
                       {message.type === "bot" && (
-                        <img
-                          src="/speaker.png"
-                          alt="Speak"
-                          className="w-6 h-6 cursor-pointer hover:scale-110 transition-transform mt-0.5"
+                        <button
+                          className="flex-shrink-0 w-7 h-7 rounded-full bg-blue-500/10 hover:bg-blue-500/20 flex items-center justify-center cursor-pointer hover:scale-110 transition-all duration-200 mt-0.5 border border-blue-200/20"
                           onClick={() => speakText(message.content)}
                           title="Read this message"
-                        />
+                        >
+                          <img src="/speaker.png" alt="" />
+                        </button>
                       )}
                     </div>
                   </div>
                   <p
-                    className={`text-xs text-white/60 mt-1 px-2 ${
+                    className={`text-xs text-blue-200/70 mt-2 px-3 font-medium ${
                       message.type === "user" ? "text-right" : "text-left"
                     }`}
                   >
                     {formatTime(message.timestamp)}
                   </p>
                 </div>
-
+  
                 {message.type === "bot" && (
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-pink-400 to-rose-500 flex items-center justify-center mr-3 mt-1 flex-shrink-0">
-                    <span className="text-white font-medium text-xs">J</span>
+                  <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-blue-400 via-sky-400 to-cyan-400 flex items-center justify-center mr-4 mt-1 flex-shrink-0 shadow-lg shadow-blue-500/25">
+                    <span className="text-white font-bold text-sm">J</span>
                   </div>
                 )}
               </div>
             ))}
-
+  
             {isLoading && (
               <div className="flex justify-start">
-                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-pink-400 to-rose-500 flex items-center justify-center mr-3 mt-1">
-                  <span className="text-white font-medium text-xs">E</span>
+                <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-blue-400 via-sky-400 to-cyan-400 flex items-center justify-center mr-4 mt-1 shadow-lg shadow-blue-500/25">
+                  <span className="text-white font-bold text-sm">J</span>
                 </div>
-                <div className="bg-white/90 backdrop-blur-sm p-4 rounded-2xl shadow-lg mr-4">
-                  <div className="flex space-x-1">
-                    <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce"></div>
-                    <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce delay-100"></div>
-                    <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce delay-200"></div>
+                <div className="bg-slate-100/95 backdrop-blur-md p-5 rounded-3xl shadow-lg mr-4 border border-white/20">
+                  <div className="flex space-x-2">
+                    <div className="w-2.5 h-2.5 bg-blue-500 rounded-full animate-bounce"></div>
+                    <div className="w-2.5 h-2.5 bg-sky-500 rounded-full animate-bounce delay-100"></div>
+                    <div className="w-2.5 h-2.5 bg-cyan-500 rounded-full animate-bounce delay-200"></div>
                   </div>
                 </div>
               </div>
             )}
             <div ref={messagesEndRef} />
           </div>
-
+  
           {/* Input Area */}
-          <div className="p-6 bg-white/5 border-t border-white/10">
+          <div className="p-8 bg-slate-900/10 backdrop-blur-sm border-t border-blue-300/20">
             <div className="flex items-end space-x-4">
               <div className="flex-1 relative">
                 <textarea
                   ref={textareaRef}
-                  className="w-full p-4 pr-12 bg-white/90 backdrop-blur-sm rounded-2xl border border-white/20 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-transparent resize-none shadow-lg transition-all duration-200"
+                  className="w-full p-5 pr-14 bg-slate-100/95 backdrop-blur-md rounded-3xl border border-blue-200/30 text-slate-800 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-400/50 focus:border-blue-400/50 resize-none shadow-lg transition-all duration-300 font-medium"
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyPress={handleKeyPress}
                   rows={1}
-                  placeholder="Type your message here... (Press Enter to send)"
-                  style={{ minHeight: "52px", maxHeight: "120px" }}
+                  placeholder="Share your thoughts with Jess..."
+                  style={{ minHeight: "60px", maxHeight: "140px" }}
                 />
               </div>
               <button
-                className="p-4 bg-gradient-to-br from-pink-500 to-rose-600 text-white rounded-2xl font-medium hover:from-pink-600 hover:to-rose-700 focus:outline-none focus:ring-2 focus:ring-pink-400 transition-all duration-200 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center min-w-[52px]"
+                className="p-5 bg-gradient-to-br from-blue-500 via-blue-600 to-sky-600 text-white rounded-3xl font-semibold hover:from-blue-600 hover:via-blue-700 hover:to-sky-700 focus:outline-none focus:ring-2 focus:ring-blue-400/50 transition-all duration-300 shadow-lg shadow-blue-500/25 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center min-w-[60px] hover:scale-105 active:scale-95"
                 onClick={sendMessage}
                 disabled={!input.trim() || isLoading}
               >
                 {isLoading ? (
-                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                  <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
                 ) : (
                   <svg
-                    className="w-5 h-5"
+                    className="w-6 h-6"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -266,14 +280,14 @@ const Jess = () => {
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      strokeWidth={2}
+                      strokeWidth={2.5}
                       d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
                     />
                   </svg>
                 )}
               </button>
             </div>
-            <p className="text-xs text-white/50 mt-2 text-center">
+            <p className="text-xs text-blue-200/60 mt-4 text-center font-medium">
               Press Enter to send • Shift + Enter for new line
             </p>
           </div>

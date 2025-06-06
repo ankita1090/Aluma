@@ -4,6 +4,7 @@ import cors from 'cors';
 import userRoutes from './routes/userRoutes.js'
 import dotenv from 'dotenv';
 import ChatbotRoutes from './routes/ChatbotRoutes.js';
+import musicRoutes from './routes/musicRoutes.js';
 
 dotenv.config();
 
@@ -16,6 +17,7 @@ app.use(express.json());
 
 app.use("/api/", userRoutes)
 app.use('/api/', ChatbotRoutes);
+app.use("/api/music", musicRoutes);
 
 
 mongoose.connect(process.env.MONGO_URI)

@@ -5,7 +5,7 @@ import { motion } from "motion/react";
 import { cn } from "../../utils/cn";
 
 export function ContainerTextFlip({
-  words = ["Peace", "Positivity", "Support", "Balance", "Encouragement", "Reassurance"],
+  words = ["Peace", "Positivity", "Support", "Balance", "Reassurance"],
   interval = 3000,
   className,
   textClassName,

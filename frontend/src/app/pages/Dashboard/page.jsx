@@ -32,12 +32,12 @@ export default function Home() {
       title: "Former British Prime Minister",
     },
     {
-      quote: "Don’t watch the clock; do what it does. Keep going.",
+      quote: "Don't watch the clock; do what it does. Keep going.",
       name: "Sam Levenson",
       title: "Writer & Humorist",
     },
     {
-      quote: "You miss 100% of the shots you don’t take.",
+      quote: "You miss 100% of the shots you don't take.",
       name: "Wayne Gretzky",
       title: "Professional Hockey Player",
     },
@@ -48,7 +48,7 @@ export default function Home() {
       title: "Author",
     },
     {
-      quote: "It always seems impossible until it’s done.",
+      quote: "It always seems impossible until it's done.",
       name: "Nelson Mandela",
       title: "Former President of South Africa",
     },
@@ -93,161 +93,139 @@ export default function Home() {
   }, []);
 
   return (
-    <AuroraBackground className="w-full m-0 p-0">
-      <main className="min-h-screen flex flex-col m-0 p-0">
-        <div className="relative z-10 min-h-screen flex items-center justify-center px-6 pt-24 lg:pt-20 pb-4">
-          <div className="w-full max-w-7xl mx-auto">
-            <div className="grid lg:grid-cols-2 gap-8 items-center">
-              {/* Left Side: Enhanced Text Content */}
-              <div
-                className={`flex flex-col gap-8 transition-all duration-1000 transform ${
-                  isVisible
-                    ? "translate-y-0 opacity-100"
-                    : "translate-y-10 opacity-0"
-                }`}
+    <AuroraBackground className="w-full">
+      <main className="min-h-screen flex flex-col ">
+        {/* Hero Section */}
+        <section className="w-full pt-24 pb-20">
+          <div className="max-w-7xl mx-auto px-4 grid lg:grid-cols-2 gap-16 items-center">
+            {/* Text Section */}
+            <div
+              className={`flex flex-col gap-6 transition-all duration-700 ${
+                isVisible
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-6"
+              }`}
+            >
+              <h1 className="text-6xl lg:text-7xl font-black text-transparent bg-gradient-to-br from-sky-200 via-cyan-300 to-blue-500 bg-clip-text leading-tight">
+                Welcome {name}
+              </h1>
+              <div className="h-1 w-24 bg-gradient-to-r from-blue-400 to-blue-600 rounded-full"></div>
+              <p className="text-2xl text-white/90 font-light leading-relaxed">
+                Nurture your mind with <br />
+                <ContainerTextFlip />
+              </p>
+              <button
+                onClick={() => router.push("/pages/AboutYou")}
+                className="rounded-lg px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-700 text-white font-medium hover:scale-105 transition-transform"
               >
-                {/* Premium Badge */}
+                Tell us more about yourself →
+              </button>
+              <p className="text-lg text-white font-light max-w-md">
+                Experience a sanctuary designed for your mental wellness
+                journey. Where luxury meets mindfulness.
+              </p>
+            </div>
 
-                {/* Main Heading with Gradient */}
-                <div className="space-y-4">
-                  <h1 className="font-poppins text-7xl lg:text-8xl font-black bg-gradient-to-br from-sky-200 via-cyan-300 to-blue-500 bg-clip-text text-transparent drop-shadow-2xl leading-none tracking-tight">
-                    fsfsfewfcawec {name}
-                  </h1>
-                  <div className="w-24 h-1 bg-gradient-to-r from-blue-400 to-blue-600 rounded-full"></div>
-                </div>
+            {/* Logo Section */}
+            <div
+              className={`flex justify-center lg:justify-end transition-all duration-1000 delay-300 transform ${
+                isVisible
+                  ? "translate-y-0 opacity-100"
+                  : "translate-y-10 opacity-0"
+              }`}
+            >
+              <div className="relative group">
+                {/* Outer glow ring */}
+                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-300/30 to-blue-600/30 blur-3xl group-hover:blur-2xl transition-all duration-500 animate-pulse"></div>
 
-                {/* Subtitle with enhanced typography */}
-                <p className="text-2xl lg:text-3xl font-light text-white/90 leading-relaxed tracking-wide">
-                  Nurture your mind with <br />
-                  <ContainerTextFlip />
-                </p>
+                {/* Main logo container */}
+                <div className="relative w-80 h-80 lg:w-96 lg:h-96 rounded-full bg-gradient-to-br from-white/20 to-white/5 backdrop-blur-xl border border-white/20 shadow-2xl flex items-center justify-center group-hover:scale-105 transition-all duration-500">
+                  {/* Inner gradient ring */}
+                  <div className="absolute inset-4 rounded-full bg-gradient-to-br from-blue-300/20 to-blue-600/20 animate-spin-slow"></div>
 
-                <button
-                  onClick={() => {
-                    router.push("/pages/AboutYou");
-                  }}
-                  className="relative rounded-lg bg-gradient-to-r from-blue-500 via-cyan-500 to-blue-600 p-[3px] group overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/50"
-                >
-                  {/* Animated background gradient */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-500 via-cyan-500 to-blue-600 group-hover:from-blue-400 group-hover:via-cyan-400 group-hover:to-blue-500 rounded-lg transition-all duration-500"></div>
-
-                  {/* Glowing effect */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-cyan-400 rounded-lg blur-sm opacity-0 group-hover:opacity-60 transition-all duration-500"></div>
-
-                  {/* Button content */}
-                  <div className="relative flex items-center justify-center bg-blue group-hover:bg-black/80 rounded-md px-8 py-3 text-white text-lg font-medium z-10 transition-all duration-300">
-                    <span className="mr-2">Tell us more about yourself</span>
-                    <svg
-                      className="w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-300"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M13 7l5 5m0 0l-5 5m5-5H6"
-                      />
-                    </svg>
+                  {/* Logo */}
+                  <div className="relative z-10 w-48 h-48 lg:w-56 lg:h-56 rounded-full bg-gradient-to-br from-blue-100/90 to-blue-200/90 backdrop-blur-sm flex items-center justify-center shadow-xl">
+                    <img
+                      src="/Aluma_logo.png"
+                      alt="Aluma Logo"
+                      className="w-32 h-32 lg:w-40 lg:h-40 object-contain filter drop-shadow-lg"
+                    />
                   </div>
 
-                  {/* Shimmer effect */}
-                  <div className="absolute inset-0 -top-2 -bottom-2 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out"></div>
-                </button>
-
-                {/* Description */}
-                <p className="text-xl text-white font-light leading-relaxed max-w-lg">
-                  Experience a sanctuary designed for your mental wellness
-                  journey. Where luxury meets mindfulness.
-                </p>
-              </div>
-
-              {/* Right Side: Logo Section */}
-              <div
-                className={`flex justify-center lg:justify-end transition-all duration-1000 delay-300 transform ${
-                  isVisible
-                    ? "translate-y-0 opacity-100"
-                    : "translate-y-10 opacity-0"
-                }`}
-              >
-                <div className="relative group">
-                  {/* Outer glow ring */}
-                  <div className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-300/30 to-blue-600/30 blur-3xl group-hover:blur-2xl transition-all duration-500 animate-pulse"></div>
-
-                  {/* Main logo container */}
-                  <div className="relative w-80 h-80 lg:w-96 lg:h-96 rounded-full bg-gradient-to-br from-white/20 to-white/5 backdrop-blur-xl border border-white/20 shadow-2xl flex items-center justify-center group-hover:scale-105 transition-all duration-500">
-                    {/* Inner gradient ring */}
-                    <div className="absolute inset-4 rounded-full bg-gradient-to-br from-blue-300/20 to-blue-600/20 animate-spin-slow"></div>
-
-                    {/* Logo */}
-                    <div className="relative z-10 w-48 h-48 lg:w-56 lg:h-56 rounded-full bg-gradient-to-br from-blue-100/90 to-blue-200/90 backdrop-blur-sm flex items-center justify-center shadow-xl">
-                      <img
-                        src="/aluma_logo.png"
-                        alt="Aluma Logo"
-                        className="w-32 h-32 lg:w-40 lg:h-40 object-contain filter drop-shadow-lg"
-                      />
-                    </div>
-
-                    {/* Floating particles */}
-                    <div className="absolute top-8 right-8 w-2 h-2 rounded-full bg-blue-300 animate-bounce opacity-60"></div>
-                    <div className="absolute bottom-12 left-12 w-1.5 h-1.5 rounded-full bg-blue-200 animate-bounce delay-300 opacity-60"></div>
-                    <div className="absolute top-20 left-8 w-1 h-1 rounded-full bg-blue-400 animate-bounce delay-700 opacity-60"></div>
-                  </div>
+                  {/* Floating particles */}
+                  <div className="absolute top-8 right-8 w-2 h-2 rounded-full bg-blue-300 animate-bounce opacity-60"></div>
+                  <div className="absolute bottom-12 left-12 w-1.5 h-1.5 rounded-full bg-blue-200 animate-bounce delay-300 opacity-60"></div>
+                  <div className="absolute top-20 left-8 w-1 h-1 rounded-full bg-blue-400 animate-bounce delay-700 opacity-60"></div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        </section>
+        
 
-        {/* Spacer with deep blue */}
-        <div className="w-screen bg-[#134BB3] h-[10px] -mx-6"></div>
-
-        {/* Cards section with blue gradient */}
-        <div className="w-screen bg-gradient-to-b from-[#1D5DCB] via-[#4D86E0] to-[#7AA7F2] -mx-6 px-6">
+        {/* Focus Cards Section */}
+        <div className="w-screen bg-gradient-to-b from-[#1D5DCB] via-[#4D86E0] to-[#7AA7F2]  px-6">
+        {/* <div className="w-screen  px-6"> */}
           <div className="flex justify-center items-center w-full">
             <FocusCards />
           </div>
         </div>
 
-        <div className="w-screen bg-gradient-to-b from-[#7AA7F2] via-[#4D86E0] to-[#C5DFFF] -mx-6 px-6 pt-4">
-          <div className="flex justify-center items-center w-full">
-            <Music />
+        <div className="bg-white w-max h-2"> </div>
+
+        {/* Music Section */}
+        <section className="bg-transparent py-20 relative overflow-visible w-screen left-0 right-0 fixed top-0 z-0">
+
+          {/* Ambient Blurs */}
+          <div className="absolute inset-0">
+            <div className="absolute top-20 left-20 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl"></div>
+            <div className="absolute bottom-20 right-20 w-80 h-80 bg-blue-500/15 rounded-full blur-2xl delay-1000"></div>
           </div>
-        </div>
 
-        <button onClick={() => router.push("/pages/spotifyLogin")}>
-          spotify login
-        </button>
+          <div className="relative z-10 max-w-7xl mx-auto px-4 text-center">
+            <h2 className="text-5xl lg:text-6xl font-thin text-transparent bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text pb-2">
+              Feeling
+            </h2>
+            <h3 className="text-4xl lg:text-5xl font-bold text-transparent bg-gradient-to-r from-purple-300 via-pink-300 to-blue-300 bg-clip-text mt-2">
+              Overwhelmed?
+            </h3>
+            <p className="text-2xl text-white/70 mt-8">
+              Immerse yourself in our carefully curated
+            </p>
+            <p className="text-2xl text-transparent bg-gradient-to-r from-purple-200 to-blue-200 bg-clip-text">
+              symphony of tranquility
+            </p>
 
-        {/* <div className="w-full bg-gradient-to-b from-[#134BB3] via-[#1D5DCB] to-[#4D86E0] py-20 min-h-[400px]"> */}
-  {/* <div className="container mx-auto px-4 max-w-7xl">
-    
-    <div className="relative">
-      <InfiniteMovingCards 
-        items={quotes} 
-        direction="right"
-        speed="slow"
-        pauseOnHover={true}
-      />
-    </div>
-  </div> */}
-{/* </div> */}
+            {/* Music Player */}
+            <div className="mt-12 max-w-5xl mx-auto bg-white/5 rounded-3xl p-6 border border-white/10 backdrop-blur-xl shadow-xl relative">
+              <Music />
+            </div>
 
-        {/* Global Styles */}
+            {/* Footer Text */}
+            <p className="text-white/40 text-sm uppercase mt-12 tracking-widest">
+              Let the music heal your soul
+            </p>
+          </div>
+
+          {/* Floating Notes */}
+          <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute top-1/4 left-1/4 text-white/10 animate-float">
+              ♪
+            </div>
+            <div className="absolute top-3/4 right-1/4 text-white/10 animate-float-delayed">
+              ♫
+            </div>
+            <div className="absolute top-1/2 right-1/3 text-white/10 animate-float-slow">
+              ♪
+            </div>
+            <div className="absolute bottom-1/4 left-1/3 text-white/10 animate-float-delayed">
+              ♫
+            </div>
+          </div>
+        </section>
+
+        {/* Animations */}
         <style jsx global>{`
-          * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-          }
-
-          body {
-            margin: 0 !important;
-            padding: 0 !important;
-            overflow-x: hidden;
-          }
-
           @keyframes spin-slow {
             from {
               transform: rotate(0deg);
@@ -256,8 +234,47 @@ export default function Home() {
               transform: rotate(360deg);
             }
           }
+          @keyframes float {
+            0%,
+            100% {
+              transform: translateY(0) rotate(0deg);
+            }
+            50% {
+              transform: translateY(-20px) rotate(180deg);
+            }
+          }
+          @keyframes float-delayed {
+            0%,
+            100% {
+              transform: translateY(0) rotate(0deg);
+            }
+            50% {
+              transform: translateY(-30px) rotate(-180deg);
+            }
+          }
+          @keyframes float-slow {
+            0%,
+            100% {
+              transform: translateY(0) rotate(0deg);
+            }
+            50% {
+              transform: translateY(-15px) rotate(90deg);
+            }
+          }
           .animate-spin-slow {
             animation: spin-slow 20s linear infinite;
+          }
+          .animate-float {
+            animation: float 6s ease-in-out infinite;
+            font-size: 2rem;
+          }
+          .animate-float-delayed {
+            animation: float-delayed 8s ease-in-out infinite;
+            font-size: 1.5rem;
+          }
+          .animate-float-slow {
+            animation: float-slow 10s ease-in-out infinite;
+            font-size: 1.8rem;
           }
         `}</style>
       </main>

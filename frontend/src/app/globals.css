@@ -24,4 +24,15 @@
   }
 }
 
+html, body {
+  @apply bg-[#1D5DCB];
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100vh;   /* full viewport height */
+  overflow-x: hidden;  /* prevent horizontal scroll */
+  height: auto;        /* let height grow as needed */
+}
+
+
 

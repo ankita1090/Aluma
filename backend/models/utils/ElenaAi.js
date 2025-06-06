@@ -29,10 +29,6 @@ export async function getElenaReply(userPrompt, token) {
         ? userInfo.journalEntries[userInfo.journalEntries.length - 1]
         : null;
 
-    const relaxingSongs = Array.isArray(userInfo.relaxing_songs)
-      ? userInfo.relaxing_songs.join(", ")
-      : "N/A";
-
     const contacts =
       Array.isArray(userInfo.trustedContacts) &&
       userInfo.trustedContacts.length > 0
@@ -57,7 +53,6 @@ Physical Activity: ${userInfo.Physical_Activity || "N/A"}
 Current Medication: ${userInfo.Current_Medication || "N/A"}
 
 Latest Journal Mood: ${latestJournalEntry || "N/A"}
-Relaxing Songs: ${relaxingSongs}
 Trusted Contacts: ${contacts}
 `;
   }
