@@ -1,4 +1,4 @@
-"use client"; // ✅ Needed when using hooks like useState and useRouter in app directory
+"use client";
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 function Login() {
   const [form, setForm] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
-  const router = useRouter(); // ✅ Next.js routing hook
+  const router = useRouter();
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -33,7 +33,7 @@ function Login() {
       if (response.ok) {
         localStorage.setItem("token", data.token);
         localStorage.setItem("user", JSON.stringify(data.user));
-        router.push("/pages/Dashboard"); // ✅ Redirect using Next.js router
+        router.push("/pages/Dashboard");
       } else {
         alert(data.message || "Login failed");
       }
@@ -45,49 +45,54 @@ function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-base-200">
-      <div className="card w-full max-w-sm shadow-xl bg-base-100">
-        <form onSubmit={handleLogin} className="card-body">
-          <h2 className="card-title justify-center">Login</h2>
+    <div className="min-h-screen flex items-center justify-center bg-[#1D5DCB] px-4">
+      <div className="w-full max-w-sm rounded-2xl shadow-lg bg-white border border-gray-200">
+        <form onSubmit={handleLogin} className="p-8">
+          <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
+            Welcome Back
+          </h2>
 
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            className="input input-bordered"
-            value={form.email}
-            onChange={handleChange}
-            required
-          />
-
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            className="input input-bordered"
-            value={form.password}
-            onChange={handleChange}
-            required
-          />
-
-          <div className="form-control mt-4">
-            <button
-              type="submit"
-              className="btn btn-primary w-full"
-              disabled={loading}
-            >
-              {loading ? "Logging in..." : "Login"}
-            </button>
-            <p className="text-center mt-2 text-sm">
-  New user?{" "}
-  <span
-    className="text-primary cursor-pointer underline"
-    onClick={() => router.push("/pages/signup")}
-  >
-    Singup
-  </span>
-</p>
+          <div className="mb-4">
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              value={form.email}
+              onChange={handleChange}
+              required
+            />
           </div>
+
+          <div className="mb-6">
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              value={form.password}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-all duration-200 font-semibold disabled:opacity-50"
+            disabled={loading}
+          >
+            {loading ? "Logging in..." : "Login"}
+          </button>
+
+          <p className="text-center text-sm text-gray-600 mt-4">
+            New user?{" "}
+            <span
+              className="text-blue-600 font-medium hover:underline cursor-pointer"
+              onClick={() => router.push("/pages/signup")}
+            >
+              Signup
+            </span>
+          </p>
         </form>
       </div>
     </div>

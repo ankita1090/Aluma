@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import User from '../models/User.js'; // adjust the path as needed
 
 export const signup = async (req, res) => {
-  const { email, password } = req.body;
+  const { name, email, password } = req.body;
 
   try {
     // Check if user already exists
@@ -15,20 +15,17 @@ export const signup = async (req, res) => {
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create user with all fields matching schema
+    // Create user with provided name and default values for other fields
     const user = await User.create({
+      name,
       email,
       password: hashedPassword,
-      name: "",
       occupation: "",
-      age: "",
+      age: null,
       gender: "",
       Physical_Activity: "",
       Current_Medication: "",
-      journalEntries: [],  
-      trustedContacts,      // Initialized as an empty array
-      relaxing_songs: [],        // Initialized as an empty array
-      createdAt: "",  
+      trustedContacts: [],
     });
 
     // Generate JWT token
@@ -40,9 +37,12 @@ export const signup = async (req, res) => {
 
     res.json({ user, token });
   } catch (error) {
+    console.error("Signup error:", error);
     res.status(500).json({ error: 'Signup failed', details: error.message });
   }
 };
+
+
 
 export const login = async (req, res) => {
   const { email, password } = req.body;

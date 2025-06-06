@@ -5,6 +5,7 @@ import axios from "axios";
 
 const Elena = () => {
   const [input, setInput] = useState("");
+  const [userId, setUserId] = useState(null);
   const synthRef = useRef(null);
   const currentUtteranceRef = useRef(null);
 
@@ -12,16 +13,23 @@ const Elena = () => {
     if (typeof window !== "undefined") {
       synthRef.current = window.speechSynthesis;
     }
+    const token = localStorage.getItem("token");
+    const decoded = JSON.parse(atob(token.split(".")[1]));
+    console.log("Decoded token:", decoded);
+    const userId = decoded._id;
+    setUserId(userId);
+    console.log("User ID from localStorage:", userId);
   }, []);
 
   const [messages, setMessages] = useState([
     {
-      type: "bot",
+      type: "elena",
       content:
         "Hello! I'm Elena, your wellness companion. How can I help you today?",
       timestamp: new Date(),
     },
   ]);
+
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef(null);
   const textareaRef = useRef(null);
@@ -36,80 +44,96 @@ const Elena = () => {
 
   const getPreferredVoice = () => {
     const voices = window.speechSynthesis.getVoices();
-  
-    // Try common female voices first
-    const preferredFemaleVoices = [
+    const preferred = [
       "Google US English",
       "Google UK English Female",
       "Microsoft Zira - English (United States)",
-      "Samantha", // macOS
-      "Victoria", // macOS
-      "en-US-Wavenet-F", // Chrome TTS extension voice (sometimes available)
+      "Samantha",
+      "Victoria",
+      "en-US-Wavenet-F",
     ];
-  
-    for (const name of preferredFemaleVoices) {
+    for (const name of preferred) {
       const voice = voices.find((v) => v.name === name);
       if (voice) return voice;
     }
-  
-    // Fallback to any en-US female-sounding voice
-    const fallback = voices.find((v) =>
-      v.lang.startsWith("en") && v.name.toLowerCase().includes("female")
+    return (
+      voices.find(
+        (v) =>
+          v.lang.startsWith("en") && v.name.toLowerCase().includes("female")
+      ) || voices[0]
     );
-  
-    return fallback || voices[0]; // Final fallback
   };
-  
-  
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       const synth = window.speechSynthesis;
-      const loadVoices = () => {
-        synth.getVoices(); // trigger loading
-      };
-      synth.onvoiceschanged = loadVoices;
-      loadVoices();
+      synth.onvoiceschanged = () => synth.getVoices();
+      synth.getVoices(); // preload
     }
   }, []);
 
   const sendMessage = async () => {
     if (!input.trim()) return;
-  
+
     const userMessage = {
       type: "user",
       content: input,
       timestamp: new Date(),
     };
-  
+
+    console.log("Sending message from sendMessage in elena.jsx ", userMessage);
+
     setMessages((prev) => [...prev, userMessage]);
     setInput("");
     setIsLoading(true);
-  
+
     try {
       const token = localStorage.getItem("token") || "";
-  
-      const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/ElenaAI`, 
-        { message: input },
+
+      // ✅ Save user message
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/conversations`,
+        {
+          userId,
+          sender: "user", // ✅ consistent with schema enum
+          message: userMessage.content,
+        },
         {
           headers: {
-            Authorization: `Bearer ${token}`,  // <-- send token here
+            Authorization: `Bearer ${token}`,
           },
         }
       );
-  
+
+      // ✅ Ask ElenaAI backend
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/ElenaAI`,
+        { message: input },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
       const botMessage = {
-        type: "bot",
+        type: "elena",
         content: res.data.reply,
         timestamp: new Date(),
       };
-  
+
       setMessages((prev) => [...prev, botMessage]);
+
+      // OPTIONAL: Save bot response to conversation as well
+      // await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/conversations`, {
+      //   userId,
+      //   sender: "elena",
+      //   message: botMessage.content,
+      // });
     } catch (err) {
       console.error("Chat error:", err);
       const errorMessage = {
-        type: "bot",
+        type: "elena",
         content:
           "I'm sorry, I'm having trouble connecting right now. Please try again.",
         timestamp: new Date(),
@@ -119,7 +143,6 @@ const Elena = () => {
       setIsLoading(false);
     }
   };
-  
 
   const handleKeyPress = (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
@@ -128,28 +151,20 @@ const Elena = () => {
     }
   };
 
-  const formatTime = (date) => {
-    return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-  };
+  const formatTime = (date) =>
+    date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 
   const speakText = (text) => {
     const synth = synthRef.current;
-
     if (!synth) return;
 
-    if (synth.speaking) {
-      synth.cancel();
-      return;
-    }
+    if (synth.speaking) synth.cancel();
 
     const utterance = new SpeechSynthesisUtterance(text);
-    const voice = getPreferredVoice();
-    if (voice) utterance.voice = voice;
-
+    utterance.voice = getPreferredVoice();
     utterance.lang = "en-US";
     utterance.rate = 1;
     utterance.pitch = 1;
-
     synth.speak(utterance);
     currentUtteranceRef.current = utterance;
   };
@@ -164,9 +179,7 @@ const Elena = () => {
           <div className="flex items-center justify-between p-6 bg-gradient-to-r from-pink-500/20 to-rose-500/20 border-b border-white/10">
             <div className="flex items-center space-x-4">
               <div className="w-12 h-12 rounded-full bg-gradient-to-br from-pink-400 to-rose-500 flex items-center justify-center shadow-lg">
-                <span className="text-white font-bold text-lg">
                 <img src="/elena_logo.png" alt="" className="rounded-full" />
-                </span>
               </div>
               <div>
                 <h2 className="text-xl font-semibold text-white">Elena</h2>
@@ -179,7 +192,7 @@ const Elena = () => {
             </div>
           </div>
 
-          {/* Messages Container */}
+          {/* Messages */}
           <div className="flex-1 overflow-y-auto p-6 space-y-4 scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent">
             {messages.map((message, index) => (
               <div
@@ -220,15 +233,13 @@ const Elena = () => {
                       message.type === "user" ? "text-right" : "text-left"
                     }`}
                   >
-                    {formatTime(message.timestamp)}
+                    {formatTime(new Date(message.timestamp))}
                   </p>
                 </div>
 
                 {message.type === "bot" && (
                   <div className="w-8 h-8 rounded-full bg-gradient-to-br from-pink-400 to-rose-500 flex items-center justify-center mr-3 mt-1 flex-shrink-0">
-                    <span className="text-white font-medium text-xs ">
-                      E
-                    </span>
+                    <span className="text-white font-medium text-xs">E</span>
                   </div>
                 )}
               </div>
@@ -251,7 +262,7 @@ const Elena = () => {
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Input Area */}
+          {/* Input */}
           <div className="p-6 bg-white/5 border-t border-white/10">
             <div className="flex items-end space-x-4">
               <div className="flex-1 relative">

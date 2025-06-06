@@ -224,6 +224,18 @@ export default function Home() {
           </div>
         </section>
 
+        <section>
+  <div className="w-screen bg-gradient-to-b from-[#1D5DCB] via-[#4D86E0] to-[#7AA7F2] px-6 py-12">
+    <div className="max-w-5xl mx-auto text-center mb-8">
+      <h2 className="text-4xl font-bold text-white drop-shadow-md">
+        Get going with a motivational quote!
+      </h2>
+    </div>
+    <InfiniteMovingCards items={quotes} speed="slow" />
+  </div>
+</section>
+
+
         {/* Animations */}
         <style jsx global>{`
           @keyframes spin-slow {

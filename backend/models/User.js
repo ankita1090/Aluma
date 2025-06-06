@@ -10,12 +10,6 @@ const userSchema = new mongoose.Schema({
     createdAt: { type: Date, default: Date.now },
     Physical_Activity: { type: String, default: '' },
     Current_Medication: { type: String, default: '' },
-    journalEntries: [{
-        entry: String,
-        date: Date,
-        mood: String
-      }],
-    relaxing_songs: [String], // Assuming relaxing_songs is an array of strings
     trustedContacts: [{
         name: String,
         phone: String,

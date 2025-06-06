@@ -143,7 +143,7 @@ export default function AboutYouPage() {
             <div className="backdrop-blur-lg bg-white/15 border border-white/30 rounded-2xl p-8 shadow-2xl">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {Object.entries(form).map(([key, value]) => {
-                  if (key === "trustedContacts") return null;
+                  if (key === "trustedContacts" ) return null;
                   const isArray = Array.isArray(value);
                   const isReadOnly = key === "createdAt";
   

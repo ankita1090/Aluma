@@ -48,12 +48,12 @@ export function ThreeCards() {
       imgSrc: "/jess_logo.png",
       onClick: () => router.push("/pages/Jess"),
     },
-    {
-      title: "Journal",
-      description: "Dive into your personal wellness journal and reflections.",
-      imgSrc: "/journal.png",
-      onClick: () => router.push("/pages/Journal"),
-    },
+    // {
+    //   title: "Journal",
+    //   description: "Dive into your personal wellness journal and reflections.",
+    //   imgSrc: "/journal.png",
+    //   onClick: () => router.push("/pages/Journal"),
+    // },
   ];
 
   return (

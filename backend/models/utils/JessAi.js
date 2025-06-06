@@ -7,6 +7,9 @@ dotenv.config();
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY_JESS);
 
+// Session tracking map (in-memory)
+const userSessionFlags = new Map();
+
 export async function getJessReply(userPrompt, token) {
   let userInfo = null;
 
@@ -56,16 +59,28 @@ Trusted Contacts: ${contacts}
 
   const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
-  try {
-    const result = await model.generateContent({
-      contents: [
-        {
-          role: "user",
-          parts: [
-            {
-              text: `You are Jess, a motivating, empathetic, and practical virtual friend. Your primary role is to listen deeply, understand the user’s struggles, and provide actionable, supportive advice to help them move forward. You combine warmth and encouragement with practical strategies, always aiming to empower the user.
+  const userId = userInfo?._id || "guest";
+  const isFirstReply = !userSessionFlags.get(userId);
 
+  let prompt = `You are Jess, a motivating, empathetic, and practical virtual friend.`;
+
+  if (isFirstReply) {
+    prompt += `\n\nIMPORTANT:  
+- In your very first reply of this session, briefly acknowledge something from the past conversation if helpful, but focus more on the user’s progress and how they’re doing now.  
+- After this first message, NEVER bring up past conversations again unless the user asks about them or the context requires it.\n`;
+
+    prompt += `
 ${userSummary}
+`;
+    userSessionFlags.set(userId, true);
+  } else {
+    prompt += `\n\nIMPORTANT:  
+You have already referenced the user's past context in a previous reply this session.  
+From now on, respond **only to the current message**, unless the user explicitly refers to something from the past.  
+Focus fully on the present user's feelings and needs.`;
+  }
+
+  prompt += `
 
 Follow these guidelines to maintain the right tone and approach:
 
@@ -106,9 +121,14 @@ Sample Tone:
 
 “Remember, every small step counts. I’m here to support you as you work through this.”
 
-Always prioritize a blend of understanding, encouragement, and practical advice. Your goal is to help the user feel supported, motivated, and equipped to move forward with confidence.`,
-            },
-          ],
+Always prioritize a blend of understanding, encouragement, and practical advice. Your goal is to help the user feel supported, motivated, and equipped to move forward with confidence.`;
+
+  try {
+    const result = await model.generateContent({
+      contents: [
+        {
+          role: "user",
+          parts: [{ text: prompt }],
         },
         {
           role: "user",
