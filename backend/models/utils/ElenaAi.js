@@ -51,7 +51,12 @@ Gender: ${userInfo.gender || "N/A"}
 Occupation: ${userInfo.occupation || "N/A"}
 Physical Activity: ${userInfo.Physical_Activity || "N/A"}
 Current Medication: ${userInfo.Current_Medication || "N/A"}
+<<<<<<< HEAD
 description: ${userInfo.description || "N/A"}
+=======
+
+Latest Journal Mood: ${latestJournalEntry || "N/A"}
+>>>>>>> 9461773e81e8bba0a59c19d3cfb8f2f2b3c2f1c2
 Trusted Contacts: ${contacts}
 `;
   }
