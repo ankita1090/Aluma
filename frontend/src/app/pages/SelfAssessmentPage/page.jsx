@@ -7,17 +7,18 @@ import AssessmentDashboard from "../selfAssessmentDashboard/page";
 dotenv.config();
 
 const questions = [
-  "Question 1 text?",
-  "Question 2 text?",
-  "Question 3 text?",
-  "Question 4 text?",
-  "Question 5 text?",
-  "Question 6 text?",
-  "Question 7 text?",
-  "Question 8 text?",
-  "Question 9 text?",
-  "Question 10 text?",
+  "I felt emotionally balanced throughout the week.",
+  "I was able to manage my stress effectively.",
+  "I maintained a healthy sleep routine.",
+  "I felt motivated to complete my daily responsibilities.",
+  "I took time for activities that helped me relax or recharge.",
+  "I felt connected to friends, family, or community.",
+  "I stayed present and focused during tasks or conversations.",
+  "I recognized and acknowledged my emotions as they came.",
+  "I experienced moments of joy, gratitude, or contentment.",
+  "Overall, I would rate my mental health this week as good."
 ];
+
 
 const options = [
   { label: "Strongly Disagree", value: 1 },

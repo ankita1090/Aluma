@@ -2,7 +2,6 @@
 import { AuroraBackground } from "@/components/ui/aurora-background";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { ThreeCards } from "@/sections/threeCards";
 import { FocusCards } from "@/components/ui/focus-cards";
 import { ContainerTextFlip } from "@/components/ui/container-text-flip";
 import Music from "../Music/page";
@@ -180,7 +179,9 @@ export default function Home() {
         <section id="SelfAssessment">
           <div className="w-screen bg-gradient-to-b from-[#1D5DCB] via-[#4D86E0] to-[#7AA7F2] px-6 py-2">
             <SelfAssessmentCard />
+            <button onClick={() => router.push("/AssessmentDashboard")}> view last assessment </button>
           </div>
+          
         </section>
 
         {/* Music Section */}
@@ -233,8 +234,8 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="quotes">
-          <div className="w-screen bg-gradient-to-b from-[#1D5DCB] via-[#4D86E0] to-[#7AA7F2] px-6 py-12">
+        <section id="quotes" className="overflow-x-hidden">
+          <div className="w-screen bg-gradient-to-b from-[#1D5DCB] via-[#4D86E0] to-[#7AA7F2] px-6 py-12 scroll-">
             <div className="max-w-5xl mx-auto text-center mb-8">
               <h2 className="text-4xl font-bold text-white drop-shadow-md">
                 Get going with a motivational quote!

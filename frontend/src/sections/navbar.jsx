@@ -18,7 +18,16 @@ export default function Navbar() {
   const scrollToSection = (id) => {
     const el = document.getElementById(id);
     if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
+      // Calculate offset to account for fixed navbar height (64px = h-16)
+      const navbarHeight = 64;
+      const elementPosition = el.offsetTop;
+      const offsetPosition = elementPosition - navbarHeight - 20; // Extra 20px for breathing room
+      
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth"
+      });
+      
       setActiveSection(id);
       setIsMobileMenuOpen(false);
     }
