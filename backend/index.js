@@ -6,6 +6,7 @@ import dotenv from 'dotenv';
 import ChatbotRoutes from './routes/ChatbotRoutes.js';
 import journalRoutes from './routes/journalRoutes.js';
 import conversationRoutes from './routes/conversationRoutes.js';
+import assessmentRoutes from './routes/assessmentRoutes.js';
 
 dotenv.config();
 
@@ -20,6 +21,8 @@ app.use("/api/", userRoutes)
 app.use('/api/', ChatbotRoutes);
 app.use('/api/journal', journalRoutes);
 app.use("/api/conversations", conversationRoutes);
+app.use('/api/assessment', assessmentRoutes);
+
 
 
 

@@ -7,7 +7,7 @@ import { FocusCards } from "@/components/ui/focus-cards";
 import { ContainerTextFlip } from "@/components/ui/container-text-flip";
 import Music from "../Music/page";
 import Cards from "../Cards/page";
-import { InfiniteMovingCards } from "@/components/ui/infinite-moving-cards";
+import { InfiniteMovingCards } from "@/components/ui/infinite-moving-cards";import SelfAssessmentCard from "../SelfAssessmentCard/page";
 
 export default function Home() {
   const router = useRouter();
@@ -96,7 +96,7 @@ export default function Home() {
     <AuroraBackground className="w-full">
       <main className="min-h-screen flex flex-col ">
         {/* Hero Section */}
-        <section className="w-full pt-24 pb-20">
+        <section className="w-full pt-24 pb-26">
           <div className="max-w-7xl mx-auto px-4 grid lg:grid-cols-2 gap-16 items-center">
             {/* Text Section */}
             <div
@@ -161,11 +161,10 @@ export default function Home() {
             </div>
           </div>
         </section>
-        
 
         {/* Focus Cards Section */}
         <div className="w-screen bg-gradient-to-b from-[#1D5DCB] via-[#4D86E0] to-[#7AA7F2]  px-6">
-        {/* <div className="w-screen  px-6"> */}
+          {/* <div className="w-screen  px-6"> */}
           <div className="flex justify-center items-center w-full">
             <FocusCards />
           </div>
@@ -173,9 +172,14 @@ export default function Home() {
 
         <div className="bg-white w-max h-2"> </div>
 
+        <section>
+          <div className="w-screen bg-gradient-to-b from-[#1D5DCB] via-[#4D86E0] to-[#7AA7F2] px-6 py-2">
+            <SelfAssessmentCard />
+          </div>
+        </section>
+
         {/* Music Section */}
         <section className="bg-transparent py-20 relative overflow-visible w-screen left-0 right-0 fixed top-0 z-0">
-
           {/* Ambient Blurs */}
           <div className="absolute inset-0">
             <div className="absolute top-20 left-20 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl"></div>
@@ -225,15 +229,15 @@ export default function Home() {
         </section>
 
         <section>
-  <div className="w-screen bg-gradient-to-b from-[#1D5DCB] via-[#4D86E0] to-[#7AA7F2] px-6 py-12">
-    <div className="max-w-5xl mx-auto text-center mb-8">
-      <h2 className="text-4xl font-bold text-white drop-shadow-md">
-        Get going with a motivational quote!
-      </h2>
-    </div>
-    <InfiniteMovingCards items={quotes} speed="slow" />
-  </div>
-</section>
+          <div className="w-screen bg-gradient-to-b from-[#1D5DCB] via-[#4D86E0] to-[#7AA7F2] px-6 py-12">
+            <div className="max-w-5xl mx-auto text-center mb-8">
+              <h2 className="text-4xl font-bold text-white drop-shadow-md">
+                Get going with a motivational quote!
+              </h2>
+            </div>
+            <InfiniteMovingCards items={quotes} speed="slow" />
+          </div>
+        </section>
 
 
         {/* Animations */}
