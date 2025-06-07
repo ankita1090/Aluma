@@ -1,9 +1,8 @@
 import Assessment from '../models/Assessment.js';
-
 import express from 'express';
 import { analyzeAssessment } from '../models/utils/assessmentAnalysis.js';
 
-// Scoring logic helper
+// Helper: Calculate scores
 const calculateScores = (answers) => {
   let total = 0;
   const categoryScores = {
@@ -27,7 +26,7 @@ const calculateScores = (answers) => {
   };
 };
 
-// Generate suggestions (basic logic)
+// Helper: Generate basic suggestions
 const generateSuggestions = (scores) => {
   const suggestions = [];
 
@@ -38,59 +37,56 @@ const generateSuggestions = (scores) => {
   return suggestions;
 };
 
+// Controller: Submit Assessment
 export const submitAssessment = async (req, res) => {
-    const { userId, answers } = req.body;
-  
-    if (!userId || !answers) {
-      return res.status(400).json({ message: 'Missing userId or answers.' });
-    }
-  
-    const scores = calculateScores(answers);
-  
-    try {
-      // Call Gemini API analysis util
-      const aiAnalysis = await analyzeAssessment(scores.categoryScores);
-    //   const aiAnalysis = JSON.parse(aiResponseText);
-  
-      const existing = await Assessment.findOne({ userId }).sort({ createdAt: -1 });
-  
-      const newAssessment = new Assessment({
-        userId,
-        answers,
-        totalScore: scores.totalScore,
-        categoryScores: scores.categoryScores,
-        suggestions: scores.suggestions,
-        aiAnalysis,  // <-- add the AI advice here
-        lastScore: existing
-          ? {
-              totalScore: existing.totalScore,
-              categoryScores: existing.categoryScores,
-              suggestions: existing.suggestions,
-            }
-          : null,
-      });
-  
-      await newAssessment.save();
-  
-      res.status(201).json({
-        message: 'Assessment submitted!',
-        assessment: newAssessment,
-        aiAnalysis,  // optionally send AI advice separately if you want
-      });
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ message: 'Server error', error: err.message });
-    }
-  };
+  const { userId, answers } = req.body;
+
+  if (!userId || !answers) {
+    return res.status(400).json({ message: 'Missing userId or answers.' });
+  }
+
+  const scores = calculateScores(answers);
+
+  try {
+    // Get Gemini-generated analysis
+    const suggestionObject = await analyzeAssessment(scores.categoryScores);
+
+    const newAssessment = new Assessment({
+      userId,
+      answers,
+      totalScore: scores.totalScore,
+      categoryScores: scores.categoryScores,
+      suggestions: [suggestionObject], // ✅ Gemini returns 1 object, schema expects array
+    });
+
+    await newAssessment.save();
+
+    res.status(201).json({
+      message: 'Assessment submitted!',
+      assessment: newAssessment,
+      aiAnalysis: suggestionObject,
+    });
+  } catch (err) {
+    console.error('Error in submitAssessment:', err);
+    res.status(500).json({ message: 'Server error', error: err.message });
+  }
+};
+
+
 
 export const getLatestAssessment = async (req, res) => {
   const { userId } = req.params;
 
   try {
     const latest = await Assessment.findOne({ userId }).sort({ createdAt: -1 });
-    if (!latest) return res.status(404).json({ message: 'No assessment found' });
+
+    if (!latest) {
+      return res.status(404).json({ message: 'No assessment found' });
+    }
+
     res.json(latest);
   } catch (err) {
+    console.error('Error fetching latest assessment:', err);
     res.status(500).json({ message: 'Server error', error: err.message });
   }
 };

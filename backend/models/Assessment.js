@@ -5,16 +5,6 @@ const answerSchema = new mongoose.Schema({
   selectedOption: Number,
 });
 
-const scoreBreakdownSchema = new mongoose.Schema({
-  totalScore: Number,
-  categoryScores: {
-    stress: Number,
-    focus: Number,
-    positivity: Number,
-  },
-  suggestions: [String],
-});
-
 const assessmentSchema = new mongoose.Schema(
   {
     userId: {
@@ -28,8 +18,13 @@ const assessmentSchema = new mongoose.Schema(
       focus: Number,
       positivity: Number,
     },
-    suggestions: [String],
-    lastScore: scoreBreakdownSchema, // <-- stores last score breakdown
+    suggestions: [
+      {
+        analysis: String,
+        advice: [String],
+        importantReminders: [String],
+      },
+    ],
   },
   {
     timestamps: true,

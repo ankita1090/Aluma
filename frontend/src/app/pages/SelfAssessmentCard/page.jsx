@@ -35,33 +35,47 @@ export default function SelfAssessmentCard() {
     }
   };
 
-  const handleViewDashboard = (e) => {
+  const handleViewDashboard = async (e) => {
     e.preventDefault();
-
+  
     const token = localStorage.getItem("token");
-
+  
     if (!token) {
-      console.alert(
-        "No token found. Please log in first."
-      );
+      alert("No token found. Please log in first.");
       return;
     }
-
+  
     try {
       const decoded = JSON.parse(atob(token.split(".")[1]));
       const userId = decoded._id;
-      console.log("this is the userid", userId);
-
-      
-      router.push(`/api/assessments/${userId}/latest`);
-
+  
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/assessment/${userId}/latest`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error("Failed to fetch assessment data");
+      }
+  
+      const assessmentData = await response.json();
+      console.log("Fetched assessment data:", assessmentData);
+  
+      // Save the fetched data to sessionStorage
+      sessionStorage.setItem("assessmentData", JSON.stringify(assessmentData));
+  
+      // Navigate to the dashboard page
+      router.push("/pages/pastAssessmentDashboard");
+  
     } catch (error) {
-      console.error("Error decoding token:", error);
-      console.alert(
-        "Invalid token format. Please log in again."
-      );
+      console.error("Error:", error);
+      alert("There was an error fetching your data. Please try again.");
     }
   };
+  
+  
+  
 
   return (
     <div className="min-h-screen bg-transparent p-6 flex items-center justify-center">

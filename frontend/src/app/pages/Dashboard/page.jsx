@@ -179,7 +179,7 @@ export default function Home() {
         <section id="SelfAssessment">
           <div className="w-screen bg-gradient-to-b from-[#1D5DCB] via-[#4D86E0] to-[#7AA7F2] px-6 py-2">
             <SelfAssessmentCard />
-            <button onClick={() => router.push("/AssessmentDashboard")}> view last assessment </button>
+            
           </div>
           
         </section>

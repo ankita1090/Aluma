@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, useEffect } from "react";
 import {
   Brain,
@@ -14,18 +15,72 @@ import {
 import { useRouter } from "next/navigation";
 import Calender from "@/sections/calender";
 
-export default function AssessmentDashboard({ result }) {
-    const [name, setName] = useState("");
-  const { stress, focus, positivity } = result.categoryScores;
-  const { analysis, advice, importantReminders } = result.aiAnalysis || {};
+export default function PastAssessmentDashboard({ result }) {
+  const [data, setData] = useState(null);
+  const [name, setName] = useState("");
   const router = useRouter();
 
-  // Calculate percentages for visual representation
+  // Load assessment data from sessionStorage
+  useEffect(() => {
+    const storedData = sessionStorage.getItem("assessmentData");
+    if (storedData) {
+      const parsedData = JSON.parse(storedData);
+      setData(parsedData);
+      console.log("Parsed assessment data:", parsedData);   
+    //   console.log("analysis : ", parsedData.suggestions[0].analysis);
+    }
+  }, []);
+
+  // Fetch user name from backend
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        try {
+          const res = await fetch(
+            `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+
+          if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+
+          const data = await res.json();
+          setName(data.name || "User");
+          console.log("User Data:", data);
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+        }
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+  // Final data source: session data > fallback to props
+  const finalresult = data?.result || {};
+  const {
+    stress = 0,
+    focus = 0,
+    positivity = 0,
+  } = result?.categoryScores || {};
+  const {
+    analysis = "",
+    advice = [],
+    importantReminders = [],
+  } = result?.aiAnalysis || {};
+
   const stressPercentage = (stress / 10) * 100;
   const focusPercentage = (focus / 10) * 100;
   const positivityPercentage = (positivity / 10) * 100;
-  const totalPercentage = (result.totalScore / 50) * 100;
+  const totalPercentage = result?.totalScore
+    ? (result.totalScore / 50) * 100
+    : 0;
 
+  // Circle component (optional)
   const CircularProgress = ({ percentage, color, size = 180 }) => {
     const strokeWidth = 10;
     const radius = (size - strokeWidth) / 2;
@@ -33,70 +88,39 @@ export default function AssessmentDashboard({ result }) {
     const strokeDasharray = circumference;
     const strokeDashoffset = circumference - (percentage / 100) * circumference;
 
-    useEffect(() => {
-        const fetchUserData = async () => {
-          const token = localStorage.getItem("token");
-          if (token) {
-            try {
-              const decoded = JSON.parse(atob(token.split(".")[1]));
-      
-              const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user`, {
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                },
-              });
-              
-                if (!res.ok) {
-                    throw new Error(`HTTP error! status: ${res.status}`);
-                }
-              const data = await res.json();
-              setName(data.name || "User");
-
-              console.log("User Data:", data);
-              
-      
-            } catch (error) {
-              console.error("Error fetching user data:", error);
-            }
-          }
-        };
-      
-        fetchUserData();
-      }, []);
-      
-
     return (
-      <div className="relative inline-flex items-center justify-center">
-        <svg width={size} height={size} className="transform -rotate-90">
-          <circle
-            cx={size / 2}
-            cy={size / 2}
-            r={radius}
-            stroke="#E8F2FF"
-            strokeWidth={strokeWidth}
-            fill="none"
-          />
-          <circle
-            cx={size / 2}
-            cy={size / 2}
-            r={radius}
-            stroke={color}
-            strokeWidth={strokeWidth}
-            fill="none"
-            strokeDasharray={strokeDasharray}
-            strokeDashoffset={strokeDashoffset}
-            strokeLinecap="round"
-            className="transition-all duration-1000 ease-out"
-          />
-        </svg>
-        <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <span className="text-3xl font-bold text-slate-800">
-            {result.totalScore}/50
-          </span>
-          <span className="text-xs text-slate-500 mt-1">goals achieved</span>
+        <div className="relative w-fit h-fit">
+          <svg width={size} height={size} className="transform -rotate-90">
+            <circle
+              cx={size / 2}
+              cy={size / 2}
+              r={radius}
+              stroke="#E2E8F0"
+              strokeWidth={strokeWidth}
+              fill="none"
+            />
+            <circle
+              cx={size / 2}
+              cy={size / 2}
+              r={radius}
+              stroke={color}
+              strokeWidth={strokeWidth}
+              fill="none"
+              strokeDasharray={strokeDasharray}
+              strokeDashoffset={strokeDashoffset}
+              strokeLinecap="round"
+              className="transition-all duration-1000 ease-out"
+            />
+          </svg>
+          <div className="absolute inset-0 flex flex-col items-center justify-center">
+            <span className="text-3xl font-bold text-slate-800">
+              {Math.round(percentage)}%
+            </span>
+            <span className="text-xs text-slate-500">completed</span>
+          </div>
         </div>
-      </div>
-    );
+      );
+      
   };
 
   return (
@@ -105,7 +129,6 @@ export default function AssessmentDashboard({ result }) {
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center space-x-4">
-            
             <div>
               <h1 className="text-2xl font-bold text-slate-800">Hey {name}!</h1>
               <p className="text-slate-600">
@@ -115,7 +138,10 @@ export default function AssessmentDashboard({ result }) {
           </div>
           <div className="flex items-center space-x-4">
             <div className="relative">
-              <button className="pl-6 pr-4 py-2 bg-white/80 backdrop-blur-sm rounded-full border border-blue-100 w-64 shadow-sm hover:cursor-pointer hover:scale-105 hover:shadow-md hover:bg-white/90 transition-all duration-200 ease-in-out" onClick={() => router.push("/pages/Dashboard")}>
+              <button
+                className="pl-6 pr-4 py-2 bg-white/80 backdrop-blur-sm rounded-full border border-blue-100 w-64 shadow-sm hover:cursor-pointer hover:scale-105 hover:shadow-md hover:bg-white/90 transition-all duration-200 ease-in-out"
+                onClick={() => router.push("/pages/Dashboard")}
+              >
                 back to dashboard
               </button>
             </div>
@@ -128,7 +154,9 @@ export default function AssessmentDashboard({ result }) {
             <div className="bg-gradient-to-b from-slate-800 to-slate-900 rounded-3xl p-4 h-full shadow-lg">
               <div className="flex flex-col space-y-6">
                 <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm">
-                  <span className="text-slate-900 font-bold text-sm">{name.charAt(0)}</span>
+                  <span className="text-slate-900 font-bold text-sm">
+                    {name.charAt(0)}
+                  </span>
                 </div>
                 <div className="w-10 h-10  rounded-xl flex items-center justify-center text-white ">
                   A
@@ -157,7 +185,6 @@ export default function AssessmentDashboard({ result }) {
                 <h2 className="text-2xl font-bold text-slate-800">
                   AI Insights
                 </h2>
-                
               </div>
 
               <div className="space-y-6">
@@ -168,12 +195,12 @@ export default function AssessmentDashboard({ result }) {
                       Analysis
                     </h3>
                     <p className="text-blue-700 text-sm leading-relaxed">
-                      {analysis}
+                      {parsedData.suggestions[0].analysis}
                     </p>
                   </div>
                 )}
 
-                {advice && advice.length > 0 && (
+                {advice.length > 0 && (
                   <div className="bg-gradient-to-r from-emerald-50 to-teal-50 rounded-2xl p-6 border-l-4 border-emerald-400 shadow-sm">
                     <h3 className="font-semibold text-emerald-800 mb-4 flex items-center">
                       <Lightbulb className="w-5 h-5 mr-2" />
@@ -194,7 +221,7 @@ export default function AssessmentDashboard({ result }) {
                   </div>
                 )}
 
-                {importantReminders && importantReminders.length > 0 && (
+                {importantReminders.length > 0 && (
                   <div className="bg-gradient-to-r from-amber-50 to-orange-50 rounded-2xl p-6 border-l-4 border-amber-400 shadow-sm">
                     <h3 className="font-semibold text-amber-800 mb-4 flex items-center">
                       <AlertCircle className="w-5 h-5 mr-2" />
@@ -205,7 +232,7 @@ export default function AssessmentDashboard({ result }) {
                         <div key={idx} className="flex items-start space-x-3">
                           <div className="w-2 h-2 bg-amber-400 rounded-full flex-shrink-0 mt-3"></div>
                           <p className="text-amber-800 text-sm leading-relaxed">
-                            {reminder}
+                            {parsedData.suggestions[0].importantReminders}
                           </p>
                         </div>
                       ))}
@@ -224,9 +251,7 @@ export default function AssessmentDashboard({ result }) {
                 <h2 className="text-xl font-bold text-slate-800">
                   Overall Progress
                 </h2>
-                <div className="flex items-center space-x-2 text-slate-600">
-                  
-                </div>
+                <div className="flex items-center space-x-2 text-slate-600"></div>
               </div>
 
               <div className="flex justify-center mb-6">
@@ -286,7 +311,7 @@ export default function AssessmentDashboard({ result }) {
                 </div>
               </div>
             </div>
-           
+
             <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-6 shadow-lg border border-blue-100/50">
               <h3 className="text-lg font-bold text-slate-800 mb-4">
                 Quick Overview
