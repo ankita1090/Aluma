@@ -90,7 +90,7 @@ export default function SelfAssessmentCard() {
           <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-8 border border-white/30 min-w-[280px]">
             <div className="text-center mb-6">
               <div className="text-5xl font-bold text-slate-800 mb-2">
-                Day 12
+                View AI Insights
               </div>
               <div className="text-sm text-slate-500 uppercase tracking-wide">
                 Current Streak

@@ -115,7 +115,7 @@ export default function AssessmentDashboard({ result }) {
           </div>
           <div className="flex items-center space-x-4">
             <div className="relative">
-              <button className="pl-6 pr-4 py-2 bg-white/80 backdrop-blur-sm rounded-full border border-blue-100 w-64 shadow-sm hover:cursor-pointer hover:scale-105 hover:shadow-md hover:bg-white/90 transition-all duration-200 ease-in-out" onClick={() => router.push("/pages/dashboard")}>
+              <button className="pl-6 pr-4 py-2 bg-white/80 backdrop-blur-sm rounded-full border border-blue-100 w-64 shadow-sm hover:cursor-pointer hover:scale-105 hover:shadow-md hover:bg-white/90 transition-all duration-200 ease-in-out" onClick={() => router.push("/pages/Dashboard")}>
                 back to dashboard
               </button>
             </div>
@@ -330,42 +330,6 @@ export default function AssessmentDashboard({ result }) {
               </div>
             </div>
 
-            {/* Calendar */}
-            {/* <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-blue-100/50">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="font-bold text-slate-800">January 2025</h3>
-                <div className="flex items-center space-x-2">
-                  <ChevronLeft className="w-4 h-4 text-slate-600 cursor-pointer hover:text-blue-600 transition-colors" />
-                  <ChevronRight className="w-4 h-4 text-slate-600 cursor-pointer hover:text-blue-600 transition-colors" />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-7 gap-1 mb-2">
-                {["MO", "TU", "WE", "TH", "FR", "SA", "SU"].map((day) => (
-                  <div
-                    key={day}
-                    className="text-center text-xs text-slate-500 py-2 font-medium"
-                  >
-                    {day}
-                  </div>
-                ))}
-              </div>
-
-              <div className="grid grid-cols-7 gap-1">
-                {Array.from({ length: 31 }, (_, i) => i + 1).map((day) => (
-                  <div
-                    key={day}
-                    className={`text-center text-sm py-2 cursor-pointer rounded-lg transition-all ${
-                      day === 19
-                        ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-500/30"
-                        : "hover:bg-blue-50 text-slate-700"
-                    }`}
-                  >
-                    {day}
-                  </div>
-                ))}
-              </div>
-            </div> */}
             <Calender />
           </div>
         </div>
