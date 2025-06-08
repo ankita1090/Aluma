@@ -37,11 +37,11 @@ const Music = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.15, ease: "easeOut" }}
-            className="fixed inset-0 bg-black/20 h-full w-full z-10" 
+            className="fixed inset-0 bg-black/20 h-full w-full z-10"
           />
         )}
       </AnimatePresence>
-      
+
       <AnimatePresence mode="wait">
         {active && typeof active === "object" ? (
           <div className="fixed inset-0 grid place-items-center z-[100]">
@@ -56,21 +56,21 @@ const Music = () => {
             >
               <CloseIcon />
             </motion.button>
-            
+
             <motion.div
               layoutId={`card-${active.title}-${id}`}
               ref={ref}
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
-              transition={{ 
-                duration: 0.2, 
+              transition={{
+                duration: 0.2,
                 ease: "easeOut",
-                layout: { duration: 0.2 }
+                layout: { duration: 0.2 },
               }}
               className="w-full max-w-[500px] h-full md:h-fit md:max-h-[90%] flex flex-col bg-white dark:bg-neutral-900 sm:rounded-3xl overflow-hidden will-change-transform"
             >
-              <motion.div 
+              <motion.div
                 layoutId={`image-${active.title}-${id}`}
                 transition={{ duration: 0.2 }}
               >
@@ -113,7 +113,7 @@ const Music = () => {
                     {active.ctaText}
                   </motion.a>
                 </div>
-                
+
                 <div className="pt-4 relative px-4">
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
@@ -132,7 +132,7 @@ const Music = () => {
           </div>
         ) : null}
       </AnimatePresence>
-      
+
       {/* Music Cards Grid - Optimized */}
       <div className="w-full max-w-5xl mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-4">
@@ -141,18 +141,18 @@ const Music = () => {
               layoutId={`card-${card.title}-${id}`}
               key={`card-${card.title}-${id}`}
               onClick={() => setActive(card)}
-              whileHover={{ 
+              whileHover={{
                 scale: 1.01,
-                transition: { duration: 0.15, ease: "easeOut" }
+                transition: { duration: 0.15, ease: "easeOut" },
               }}
-              whileTap={{ 
+              whileTap={{
                 scale: 0.99,
-                transition: { duration: 0.1 }
+                transition: { duration: 0.1 },
               }}
               className="p-6 flex flex-col md:flex-row justify-between items-center bg-white/10 hover:bg-white/20 rounded-xl cursor-pointer transition-colors duration-200 border border-white/20 shadow-lg backdrop-blur-sm will-change-transform"
             >
               <div className="flex gap-6 flex-col md:flex-row items-center md:items-start w-full">
-                <motion.div 
+                <motion.div
                   layoutId={`image-${card.title}-${id}`}
                   transition={{ duration: 0.2 }}
                 >
@@ -165,7 +165,7 @@ const Music = () => {
                     loading="lazy"
                   />
                 </motion.div>
-                
+
                 <div className="flex-1 text-center md:text-left">
                   <motion.h3
                     layoutId={`title-${card.title}-${id}`}
@@ -183,14 +183,14 @@ const Music = () => {
                   </motion.p>
                 </div>
               </div>
-              
+
               <motion.button
                 layoutId={`button-${card.title}-${id}`}
                 transition={{ duration: 0.2 }}
                 whileHover={{
                   backgroundColor: "rgb(59 130 246)",
                   scale: 1.05,
-                  transition: { duration: 0.15 }
+                  transition: { duration: 0.15 },
                 }}
                 className="px-6 py-2 text-sm rounded-full font-semibold bg-blue-600/80 text-white mt-4 md:mt-0 border border-blue-400/50 flex-shrink-0 transition-colors duration-200 shadow-md"
               >
@@ -231,7 +231,7 @@ export const CloseIcon = () => {
 
 const cards = [
   {
-    description: "Lana Del Rey",
+    description: "Quiet your thoughts",
     title: "Peaceful music for meditation",
     src: "/music_pic1.png",
     ctaText: "Play",
@@ -239,13 +239,13 @@ const cards = [
     content: () => {
       return (
         <p>
-          Relaxing sleep music for deep sleeping and stress relief. Fall asleep to beautiful nature videos and use the relaxing music ("Flying" by Peder B. Helland) as sleeping music, soothing meditation music, relaxation music, study music and more.
+          Relaxing sleep music for deep rest and stress relief. Enjoy calming nature visuals with soothing tunes like "Flying" by Peder B. Helland—perfect for sleep, meditation, relaxation, and study.
         </p>
       );
     },
   },
   {
-    description: "Music for stress relief",
+    description: "stay calm and focused",
     title: "Music for stress relief",
     src: "/music_pic2.png",
     ctaText: "Play",
@@ -253,22 +253,35 @@ const cards = [
     content: () => {
       return (
         <p>
-          Meditation Relax Music Channel presents a Relaxing Stress Relief Music Video with beautiful nature and calm Music for Meditation, deep sleep, music therapy. This relaxing new age composition can be used as Deep Meditation Music, Music for Yoga and Pilates, Music for Massage, Spa Music. Also this music is perfect as dream music, Healing music, Study Music, Sleep Music and Total Relaxation Music.
+          Meditation Relax Music Channel presents calming stress relief music with beautiful nature sounds. Perfect for meditation, deep sleep, yoga, massage, and total relaxation.
         </p>
       );
     },
   },
   {
-    description: "Metallica",
-    title: "For Whom The Bell Tolls",
-    src: "https://assets.aceternity.com/demos/metallica.jpeg",
+    description: "for anxiety and restlessness",
+    title: "Breathing exercise",
+    src: "/music_pic3.png",
     ctaText: "Play",
-    ctaLink: "https://ui.aceternity.com/templates",
+    ctaLink: "https://youtu.be/LiUnFJ8P4gM?si=qn8-4AshQbN1IrlW",
     content: () => {
       return (
         <p>
-          Metallica, an iconic American heavy metal band, is renowned for their powerful sound and intense performances that resonate deeply with their audience. Formed in Los Angeles, California, they have become a cultural icon in the heavy metal music industry. <br /> <br />
-          Their songs often reflect themes of aggression, social issues, and personal struggles, capturing the essence of the heavy metal genre. With a career spanning over four decades, Metallica has released numerous hit albums and singles that have garnered them a massive fan following both in the United States and abroad.
+          Breathing exercises calm your mind and ease anxiety by focusing on slow, deep breaths. They help reduce stress and bring peace. Take a moment to breathe deeply and relax.
+        </p>
+      );
+    },
+  },
+  {
+    description: "get those positive affirmations flowing",
+    title: "Positive thoughts",
+    src: "/music_pic4.png",
+    ctaText: "Play",
+    ctaLink: "https://youtu.be/0SqQkvUV7Vo?si=uAb-R6HxjYyvOCBi",
+    content: () => {
+      return (
+        <p>
+          Positive affirmations reshape your mindset and boost confidence. Repeat daily to reduce stress and embrace a more optimistic outlook.
         </p>
       );
     },
@@ -278,11 +291,12 @@ const cards = [
     title: "Bollywood party",
     src: "/music_pic5.png",
     ctaText: "Play",
-    ctaLink: "https://www.youtube.com/watch?v=II2EO3Nw4m0&list=PLGb4vbMWyI-10b064S09MgvspGFOGQpBo",
+    ctaLink:
+      "https://www.youtube.com/watch?v=II2EO3Nw4m0&list=PLGb4vbMWyI-10b064S09MgvspGFOGQpBo",
     content: () => {
       return (
         <p>
-          These are the Bollywood hits everyone loves—timeless tracks that feel like a warm hug from the past and a push forward into better days. A perfect blend of nostalgia and rhythm, this playlist is the creator's way of saying life goes on… so why not dance through it? Whether you're unwinding solo or chasing the calm after the storm, let these melodies remind you: you're not alone, and there's always a reason to keep moving. 💫🎧🕺
+          Timeless Bollywood hits that bring nostalgia and joy. Perfect for unwinding or lifting your spirits—reminding you to keep moving forward. 💫🎧🕺
         </p>
       );
     },

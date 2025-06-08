@@ -45,49 +45,47 @@ function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#1D5DCB] px-4">
-      <div className="w-full max-w-sm rounded-2xl shadow-lg bg-white border border-gray-200">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-600 via-blue-500 to-blue-700 px-4">
+      <div className="w-full max-w-md rounded-3xl shadow-2xl bg-white/90 backdrop-blur border border-white/40">
         <form onSubmit={handleLogin} className="p-8">
-          <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
+          <h2 className="text-3xl font-extrabold text-center text-gray-800 mb-6">
             Welcome Back
           </h2>
-
-          <div className="mb-4">
+  
+          <div className="space-y-4">
             <input
               type="email"
               name="email"
-              placeholder="Email"
-              className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Email Address"
+              className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 placeholder-gray-400"
               value={form.email}
               onChange={handleChange}
               required
             />
-          </div>
-
-          <div className="mb-6">
+  
             <input
               type="password"
               name="password"
               placeholder="Password"
-              className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 placeholder-gray-400"
               value={form.password}
               onChange={handleChange}
               required
             />
           </div>
-
+  
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-all duration-200 font-semibold disabled:opacity-50"
+            className="mt-6 w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-semibold transition-all duration-200 disabled:opacity-50"
             disabled={loading}
           >
             {loading ? "Logging in..." : "Login"}
           </button>
-
-          <p className="text-center text-sm text-gray-600 mt-4">
+  
+          <p className="text-center text-sm text-gray-700 mt-5">
             New user?{" "}
             <span
-              className="text-blue-600 font-medium hover:underline cursor-pointer"
+              className="text-blue-600 font-semibold hover:underline cursor-pointer"
               onClick={() => router.push("/pages/signup")}
             >
               Signup
@@ -97,6 +95,7 @@ function Login() {
       </div>
     </div>
   );
+  
 }
 
 export default Login;

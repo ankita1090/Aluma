@@ -1,6 +1,6 @@
 "use client";
 import { AuroraBackground } from "@/components/ui/aurora-background";
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import { useRouter } from "next/navigation";
 import { FocusCards } from "@/components/ui/focus-cards";
 import { ContainerTextFlip } from "@/components/ui/container-text-flip";
@@ -16,6 +16,8 @@ export default function Home() {
   const [isVisible, setIsVisible] = useState(false);
   const [name, setName] = useState("User");
   const [showPopup, setShowPopup] = useState(false);
+  const [token, setToken] = useState(null);
+  const [userId, setUserId] = useState(null);
 
   const quotes = [
     {
@@ -64,6 +66,19 @@ export default function Home() {
   ];
 
   useEffect(() => {
+    const tokenFromStorage = localStorage.getItem("token");
+    if (tokenFromStorage) {
+      setToken(tokenFromStorage);
+      try {
+        const decoded = JSON.parse(atob(tokenFromStorage.split(".")[1]));
+        setUserId(decoded._id);
+      } catch (err) {
+        console.error("Failed to decode token", err);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
     const handleFetchName = async () => {
       try {
         const response = await fetch(
@@ -97,81 +112,27 @@ export default function Home() {
     const timer = setTimeout(() => {
       setShowPopup(true);
     }, 1500);
-    
+
     return () => clearTimeout(timer);
   }, []);
 
-  const handleClosePopup = () => {
+  const handleClosePopup = async () => {
     setShowPopup(false);
-  };
-
-  const handlePopupButtonClick = () => {
-    setShowPopup(false);
-    router.push("/pages/AboutYou");
+    try {
+      await axios.patch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/${userId}`,
+        { isFirstLogin: false },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+    } catch (err) {
+      console.error("Error updating isFirstLogin:", err);
+    }
   };
 
   return (
     <AuroraBackground className="w-full">
       <main className="min-h-screen flex flex-col relative" id="top">
         <Navbar />
-
-        {/* Recommendation Popup */}
-        {showPopup && (
-          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-            <div className="relative">
-              {/* Pointer Arrow */}
-              <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-8 border-l-transparent border-r-transparent border-t-white"></div>
-              
-              {/* Popup Content */}
-              <div className="bg-white rounded-2xl shadow-2xl p-6 max-w-sm mx-auto transform animate-bounce-in relative">
-                {/* Close Button */}
-                <button
-                  onClick={handleClosePopup}
-                  className="absolute top-3 right-3 text-gray-400 hover:text-gray-600 transition-colors"
-                >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
-                  </svg>
-                </button>
-
-                {/* Recommendation Icon */}
-                <div className="flex justify-center mb-4">
-                  <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center">
-                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
-                  </div>
-                </div>
-
-                {/* Title */}
-                <h3 className="text-xl font-bold text-gray-800 text-center mb-3">
-                  Welcome to Your Journey! 🌟
-                </h3>
-
-                {/* Message */}
-                <p className="text-gray-600 text-center mb-6 leading-relaxed">
-                  We highly recommend completing your profile as much as possible to get personalized recommendations and make the most of your mental wellness experience.
-                </p>
-
-                {/* Action Buttons */}
-                <div className="flex gap-3">
-                  <button
-                    onClick={handlePopupButtonClick}
-                    className="flex-1 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold py-3 px-4 rounded-xl hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
-                  >
-                    Let's Go! →
-                  </button>
-                  <button
-                    onClick={handleClosePopup}
-                    className="px-4 py-3 text-gray-500 hover:text-gray-700 font-medium transition-colors"
-                  >
-                    Later
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
 
         {/* Hero Section */}
         <section className="w-full pt-24 pb-16 relative z-10">
@@ -185,7 +146,7 @@ export default function Home() {
               }`}
             >
               <h1 className="text-6xl lg:text-7xl font-black text-transparent bg-gradient-to-br from-sky-200 via-cyan-300 to-blue-500 bg-clip-text leading-tight">
-                Welcome {name}
+                Welcome {name.charAt(0).toUpperCase() + name.slice(1)}
               </h1>
               <div className="h-1 w-24 bg-gradient-to-r from-blue-400 to-blue-600 rounded-full"></div>
               <p className="text-2xl text-white/90 font-light leading-relaxed">
@@ -195,14 +156,37 @@ export default function Home() {
               <button
                 id="about-you-button"
                 onClick={() => router.push("/pages/AboutYou")}
-                className="rounded-xl px-8 py-4 bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold hover:scale-105 transition-all duration-300 shadow-xl hover:shadow-2xl w-fit relative"
+                className={`group relative overflow-hidden px-6 py-3 bg-gradient-to-r from-blue-500 via-blue-600 to-purple-600 
+    text-white font-bold text-lg rounded-2xl border-none cursor-pointer transition-all duration-500 ease-out 
+    transform hover:-translate-y-3 hover:scale-105 shadow-xl hover:shadow-2xl backdrop-blur-lg w-fit
+    before:absolute before:top-[-2px] before:left-[-2px] before:right-[-2px] before:bottom-[-2px] 
+    before:bg-gradient-to-r before:from-pink-500 before:via-purple-500 before:to-cyan-500 
+    before:rounded-2xl before:z-[-1] before:opacity-0 before:transition-opacity before:duration-300 
+    hover:before:opacity-100 before:animate-pulse 
+    after:absolute after:top-0 after:left-[-100%] after:w-full after:h-full 
+    after:bg-gradient-to-r after:from-transparent after:via-white/20 after:to-transparent 
+    after:transition-all after:duration-700 hover:after:left-[100%]`}
+                style={{
+                  boxShadow:
+                    "0 10px 30px rgba(59, 130, 246, 0.3), inset 0 0 0 1px rgba(255, 255, 255, 0.1)",
+                }}
               >
-                Tell us more about yourself →
-                {/* Pulsing indicator when popup is visible */}
-                {showPopup && (
-                  <div className="absolute -top-2 -right-2 w-4 h-4 bg-red-500 rounded-full animate-pulse"></div>
-                )}
+                <span className="relative z-10 flex items-center gap-3">
+                  <span>Tell us more about yourself</span>
+                  <span className="text-xl transition-transform duration-300 group-hover:translate-x-2 group-hover:scale-110">
+                    →
+                  </span>
+                </span>
+
+                {/* Sparkle effects */}
+                <div className="absolute top-4 left-6 w-1 h-1 bg-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-ping"></div>
+                <div className="absolute bottom-4 right-8 w-1 h-1 bg-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-ping delay-500"></div>
+                <div className="absolute top-1/2 left-1/3 w-1 h-1 bg-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-ping delay-1000"></div>
+
+                {/* Glow effect */}
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-400/20 to-purple-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-xl"></div>
               </button>
+
               <p className="text-lg text-white/80 font-light max-w-md leading-relaxed">
                 Experience a sanctuary designed for your mental wellness
                 journey. Where luxury meets mindfulness.
@@ -307,10 +291,10 @@ export default function Home() {
               </h3>
               <div className="flex flex-col items-center mt-8 space-y-2">
                 <p className="text-xl text-white/70">
-                  Immerse yourself in our carefully curated
+                  Check out these playlists and videos
                 </p>
                 <p className="text-xl text-transparent bg-gradient-to-r from-purple-200 to-blue-200 bg-clip-text font-medium">
-                  symphony of tranquility
+                  to help you relax
                 </p>
               </div>
             </div>

@@ -8,7 +8,7 @@ export const InfiniteMovingCards = ({
   direction = "left",
   speed = "fast",
   pauseOnHover = true,
-  className
+  className,
 }) => {
   const containerRef = React.useRef(null);
   const scrollerRef = React.useRef(null);
@@ -40,11 +40,10 @@ export const InfiniteMovingCards = ({
 
   const getDirection = () => {
     if (containerRef.current) {
-      if (direction === "left") {
-        containerRef.current.style.setProperty("--animation-direction", "forwards");
-      } else {
-        containerRef.current.style.setProperty("--animation-direction", "reverse");
-      }
+      containerRef.current.style.setProperty(
+        "--animation-direction",
+        direction === "left" ? "normal" : "reverse"
+      );
     }
   };
 
@@ -62,49 +61,94 @@ export const InfiniteMovingCards = ({
 
   return (
     <div
-  ref={containerRef}
-  className={cn(
-    "scroller relative z-20 max-w-7xl", // removed 'overflow-hidden'
-    className
-  )}
-  onMouseEnter={() => pauseOnHover && setPaused(true)}
-  onMouseLeave={() => pauseOnHover && setPaused(false)}
->
-
+      ref={containerRef}
+      className={cn(
+        "scroller relative z-20 max-w-7xl overflow-hidden",
+        className
+      )}
+      onMouseEnter={() => pauseOnHover && setPaused(true)}
+      onMouseLeave={() => pauseOnHover && setPaused(false)}
+    >
       <ul
         ref={scrollerRef}
         className={cn(
-          "flex w-max min-w-full shrink-0 flex-nowrap gap-8 py-4"
-,
+          "flex w-max min-w-full shrink-0 flex-nowrap gap-8 py-6",
           start && "animate-scroll"
         )}
-        style={{ animationPlayState: paused ? "paused" : "running" }}
+        style={{
+          animationPlayState: paused ? "paused" : "running",
+          animationDirection: "var(--animation-direction)",
+          animationDuration: "var(--animation-duration)",
+        }}
       >
         {items.map((item) => (
           <li
-          className="relative w-[350px] md:w-[450px] max-w-full shrink-0 rounded-2xl border border-zinc-300 bg-gradient-to-br from-white to-gray-100 dark:from-zinc-800 dark:to-zinc-900 px-8 py-10 shadow-xl transition-transform hover:scale-[1.02] flex flex-col justify-between min-h-[320px]"
-          key={item.name}
-        >
-          <blockquote className="flex flex-col justify-between h-full">
-            <div className="flex-1 flex items-center">
-              <p className="text-lg font-medium text-gray-800 dark:text-gray-100 leading-relaxed">
-                “{item.quote}”
-              </p>
-            </div>
-            <div className="mt-6">
-              <p className="text-sm font-semibold text-gray-600 dark:text-gray-300">
-                {item.name}
-              </p>
-              <p className="text-sm text-gray-500 dark:text-gray-400">
-                {item.title}
-              </p>
-            </div>
-          </blockquote>
-        </li>
-        
-        
+            key={item.name}
+            className="relative w-[350px] md:w-[450px] max-w-full shrink-0 rounded-3xl border bg-gradient-to-br from-blue-300 via-blue-600 to-blue-400 px-8 py-10 shadow-lg transition-transform hover:scale-[1.04] flex flex-col justify-between min-h-[320px]"
+            style={{
+              boxShadow: "0 10px 30px rgba(45, 85, 150, 0.8)", // stronger blue shadow
+              animationFillMode: "both",
+              animationName: direction === "left" ? "fadeInLeft" : "fadeInRight",
+              animationDuration: "0.6s",
+              animationTimingFunction: "ease-out",
+            }}
+          >
+            <blockquote className="flex flex-col justify-between h-full">
+              <div className="flex-1 flex items-center">
+                <p className="text-lg font-medium text-white leading-relaxed">
+                  “{item.quote}”
+                </p>
+              </div>
+              <div className="mt-6">
+                <p className="text-sm font-semibold text-rose-300">{item.name}</p>
+                <p className="text-sm text-rose-200">{item.title}</p>
+              </div>
+            </blockquote>
+          </li>
         ))}
       </ul>
+
+      <style jsx>{`
+        @keyframes scroll {
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(-50%);
+          }
+        }
+
+        .animate-scroll {
+          animation-name: scroll;
+          animation-timing-function: linear;
+          animation-iteration-count: infinite;
+          animation-direction: var(--animation-direction);
+          animation-duration: var(--animation-duration);
+          animation-play-state: running;
+        }
+
+        @keyframes fadeInLeft {
+          0% {
+            opacity: 0;
+            transform: translateX(-20px);
+          }
+          100% {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+        @keyframes fadeInRight {
+          0% {
+            opacity: 0;
+            transform: translateX(20px);
+          }
+          100% {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+      `}</style>
     </div>
   );
 };

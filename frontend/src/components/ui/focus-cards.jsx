@@ -10,7 +10,7 @@ export function FocusCards() {
   const cards = [
     {
       title: "Elena",
-      description: "Your compassionate AI wellness companion for personalized mental health support",
+      description: "Empathetic listener that offers gentle support and comfort",
       src: "/elena_logo.png",
       onClick: () => router.push("/pages/Elena"),
       gradient: "from-rose-400/20 via-pink-300/15 to-rose-500/20",
@@ -18,7 +18,7 @@ export function FocusCards() {
     },
     {
       title: "Jess",
-      description: "Advanced wellness insights and evidence-based therapeutic techniques",
+      description: "Offers practical advice, coping tips, and helpful resources",
       src: "/jess_logo.png",
       onClick: () => router.push("/pages/Jess"),
       gradient: "from-blue-400/20 via-indigo-300/15 to-blue-500/20",
@@ -26,7 +26,7 @@ export function FocusCards() {
     },
     {
       title: "Journal",
-      description: "Private sanctuary for mindful reflection and personal growth tracking",
+      description: "Your space to reflect, write, and grow mindfully",
       src: "/journal.png",
       onClick: () => router.push("/pages/Journal"),
       gradient: "from-emerald-400/20 via-teal-300/15 to-emerald-500/20",

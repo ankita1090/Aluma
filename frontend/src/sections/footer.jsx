@@ -16,19 +16,12 @@ export default function Footer() {
             </div>
             <div>
               <h3 className="text-xl font-bold text-white">
-                MindfulSpace
+                ALUMA
               </h3>
               <p className="text-xs text-white/70">Your wellness companion</p>
             </div>
           </div>
 
-          {/* Quick Links */}
-          {/* <div className="flex flex-wrap items-center space-x-6 text-sm text-white/80">
-            <a href="/about" className="hover:text-white transition-colors">About</a>
-            <a href="/features" className="hover:text-white transition-colors">Features</a>
-            <a href="/help" className="hover:text-white transition-colors">Help</a>
-            <a href="/contact" className="hover:text-white transition-colors">Contact</a>
-          </div> */}
 
           {/* Social Links */}
           <div className="flex items-center space-x-3">
@@ -71,7 +64,7 @@ export default function Footer() {
         {/* Crisis Support - Minimal */}
         <div className="mt-6 p-3 bg-white/10 backdrop-blur-sm rounded-lg border border-white/20 text-center">
           <p className="text-sm text-white/90">
-            <strong>Crisis Support:</strong> Call 988 (US) or local emergency services if you need immediate help.
+            <strong>Crisis Support:</strong> Call 112 or local emergency services if you need immediate help.
           </p>
         </div>
       </div>

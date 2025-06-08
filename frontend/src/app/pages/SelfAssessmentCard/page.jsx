@@ -2,11 +2,14 @@ import React from "react";
 import { ArrowRight, Brain, Heart, Target, BarChart3, Calendar, TrendingUp } from "lucide-react";
 import { useRouter } from "next/navigation";
 import dotenv from "dotenv";
+import { useState } from "react";
+import { set } from "mongoose";
 
 dotenv.config();
 
 export default function SelfAssessmentCard() {
   const router = useRouter();
+
 
   const handleNewTest = (e) => {
     e.preventDefault();
@@ -61,7 +64,7 @@ export default function SelfAssessmentCard() {
   
       const assessmentData = await response.json();
       console.log("Fetched assessment data:", assessmentData);
-  
+
       // Save the fetched data to sessionStorage
       sessionStorage.setItem("assessmentData", JSON.stringify(assessmentData));
   
@@ -145,7 +148,7 @@ export default function SelfAssessmentCard() {
           View Assessment Dashboard
         </h2>
         <p className="text-rose-600 text-lg leading-relaxed mb-6">
-          Review your progress, analyze trends, and gain insights from your assessment history. See how you've grown over time.
+          Review your previous assessment, analyze trends, and gain insights. See how you've grown over time.
         </p>
 
         <div className="space-y-3 mb-6">
@@ -167,10 +170,9 @@ export default function SelfAssessmentCard() {
       <div className="flex items-center justify-between">
         <div className="bg-white/60 backdrop-blur-sm rounded-xl p-4 border border-white/30">
           <div className="text-center">
-            <div className="text-2xl font-bold text-rose-700 mb-1">89%</div>
-            <div className="text-xs text-rose-500 uppercase tracking-wide">
-              Weekly Avg
-            </div>
+            {/* <div className="text-2xl font-bold text-rose-700 mb-1">{data.totalScore}</div> */}
+            <div className="text-xs text-rose-500 tracking-wide">
+            Keep growing! </div>
           </div>
         </div>
         <div className="bg-pink-500 group-hover:bg-rose-600 transition-colors rounded-full p-4 shadow-lg">

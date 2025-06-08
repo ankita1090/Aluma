@@ -50,73 +50,72 @@ function Signup() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#1D5DCB] px-4">
-      <div className="w-full max-w-sm rounded-2xl shadow-lg bg-white border border-gray-200">
-        <form onSubmit={handleSignup} className="p-8">
-          <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-600 via-blue-500 to-blue-700 px-4">
+      <div className="w-full max-w-md rounded-3xl shadow-2xl bg-white/90 backdrop-blur border border-white/40 p-6">
+  
+        {/* Recommendation Box */}
+        <div className="mb-6 p-4 rounded-lg bg-blue-100 border border-blue-300 text-blue-800 text-sm shadow-sm">
+        For a more personalized experience, we highly recommend filling out the 'About You' section after signing in. This helps us and our chatbots understand you better and tailor the interactions just for you.
+        </div>
+  
+        <form onSubmit={handleSignup} className="p-2">
+          <h2 className="text-3xl font-extrabold text-center text-gray-800 mb-6">
             Create an Account
           </h2>
-
-          <div className="mb-4">
+  
+          <div className="space-y-4">
             <input
               type="text"
               name="name"
-              placeholder="Name"
-              className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Full Name"
+              className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 placeholder-gray-400"
               value={form.name}
               onChange={handleChange}
               required
             />
-          </div>
-
-          <div className="mb-4">
+  
             <input
               type="email"
               name="email"
-              placeholder="Email"
-              className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Email Address"
+              className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 placeholder-gray-400"
               value={form.email}
               onChange={handleChange}
               required
             />
-          </div>
-
-          <div className="mb-6">
+  
             <input
               type="password"
               name="password"
               placeholder="Password"
-              className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 placeholder-gray-400"
               value={form.password}
               onChange={handleChange}
               required
             />
-          </div>
-
-          {/* New description field */}
-          <div className="mb-6">
-            <textarea
+  
+            {/* <textarea
               name="description"
-              placeholder="Description (optional)"
-              className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+              placeholder="Tell us about yourself (optional)"
+              className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 placeholder-gray-400 resize-none"
               value={form.description}
               onChange={handleChange}
-              rows={4}
-            />
+              rows={3}
+            /> */}
           </div>
-
+  
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-all duration-200 font-semibold disabled:opacity-50"
+            className="mt-6 w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-semibold transition-all duration-200 disabled:opacity-50"
             disabled={loading}
           >
             {loading ? "Signing up..." : "Sign Up"}
           </button>
-
-          <p className="text-center text-sm text-gray-600 mt-4">
+  
+          <p className="text-center text-sm text-gray-700 mt-5">
             Already a user?{" "}
             <span
-              className="text-blue-600 font-medium hover:underline cursor-pointer"
+              className="text-blue-600 font-semibold hover:underline cursor-pointer"
               onClick={() => router.push("/pages/login")}
             >
               Login
@@ -126,6 +125,8 @@ function Signup() {
       </div>
     </div>
   );
+  
+  
 }
 
 export default Signup;
