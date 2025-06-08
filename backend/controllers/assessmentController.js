@@ -5,7 +5,7 @@ import { analyzeAssessment } from '../models/utils/assessmentAnalysis.js';
 // Helper: Calculate scores
 const calculateScores = (answers) => {
   let total = 0;
-  const categoryScores = {
+  const rawCategoryScores = {
     stress: 0,
     focus: 0,
     positivity: 0,
@@ -14,10 +14,24 @@ const calculateScores = (answers) => {
   answers.forEach((ans, i) => {
     total += ans.selectedOption;
 
-    if (i < 3) categoryScores.stress += ans.selectedOption;
-    else if (i < 6) categoryScores.focus += ans.selectedOption;
-    else categoryScores.positivity += ans.selectedOption;
+    if (i < 3) rawCategoryScores.stress += ans.selectedOption;
+    else if (i < 6) rawCategoryScores.focus += ans.selectedOption;
+    else rawCategoryScores.positivity += ans.selectedOption;
   });
+
+  const maxScores = {
+    stress: 3 * 5,      // 15
+    focus: 3 * 5,       // 15
+    positivity: 4 * 5,  // 20
+  };
+
+  // Normalize scores to 0-10 scale
+  const categoryScores = {
+    stress: Math.round((rawCategoryScores.stress / maxScores.stress) * 10),
+    focus: Math.round((rawCategoryScores.focus / maxScores.focus) * 10),
+    positivity: Math.round((rawCategoryScores.positivity / maxScores.positivity) * 10),
+  };
+  
 
   return {
     totalScore: total,
@@ -25,6 +39,7 @@ const calculateScores = (answers) => {
     suggestions: generateSuggestions(categoryScores),
   };
 };
+
 
 // Helper: Generate basic suggestions
 const generateSuggestions = (scores) => {

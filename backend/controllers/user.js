@@ -96,6 +96,7 @@ export const getUserInfo = async (req, res) => {
 
 export const updateUserInfo = async (req, res) => {
   try {
+    console.log("u are inside updateUserInfo controller");
     const userId = req.user._id || req.user.id;
     console.log("u are inside updateUserInfo controller ", userId);
     if (!userId) return res.status(401).json({ message: "Unauthorized" });

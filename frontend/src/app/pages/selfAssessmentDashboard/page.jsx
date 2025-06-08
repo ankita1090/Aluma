@@ -242,9 +242,9 @@ export default function AssessmentDashboard({ result }) {
                     <TrendingUp className="w-4 h-4 text-violet-600" />
                   </div>
                   <div>
-                    <p className="text-slate-600 text-xs">Activity</p>
+                    <p className="text-slate-600 text-xs">Questions</p>
                     <p className="font-semibold text-slate-800 text-sm">
-                      16h 30m
+                      10
                     </p>
                   </div>
                 </div>

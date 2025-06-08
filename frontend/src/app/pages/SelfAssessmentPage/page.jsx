@@ -19,7 +19,6 @@ const questions = [
   "Overall, I would rate my mental health this week as good."
 ];
 
-
 const options = [
   { label: "Strongly Disagree", value: 1 },
   { label: "Disagree", value: 2 },
@@ -114,7 +113,7 @@ export default function SelfAssessmentPage() {
 
           {/* Main Content */}
           <div className="pt-20 px-4 pb-8">
-            <div className="max-w-4xl mx-auto">
+            <div className="max-w-6xl mx-auto">
               {/* Header */}
               <div className="text-center mb-12">
                 <div className="inline-block">
@@ -139,7 +138,7 @@ export default function SelfAssessmentPage() {
                   return (
                     <div
                       key={i}
-                      className="w-full max-w-4xl transform transition-all duration-500 animate-fadeIn"
+                      className="w-full max-w-6xl transform transition-all duration-500 animate-fadeIn"
                     >
                       <div className="relative overflow-hidden rounded-2xl backdrop-blur-sm border-2 bg-white/10 border-white/20 shadow-2xl shadow-black/20">
                         
@@ -163,62 +162,92 @@ export default function SelfAssessmentPage() {
                             </div>
                           </div>
                           
-                          <h3 className="text-3xl font-bold text-white mb-8 leading-relaxed drop-shadow-lg">
+                          <h3 className="text-3xl font-bold text-white mb-8 leading-relaxed drop-shadow-lg text-center">
                             {q}
                           </h3>
                         </div>
 
-                        {/* Options */}
+                        {/* Horizontal Options Bar */}
                         <div className="relative px-8 pb-8">
-                          <div className="grid gap-4">
-                            {options.map((opt, optIndex) => {
-                              const isSelected = answers[i]?.selectedOption === opt.value;
-                              return (
-                                <label 
-                                  key={opt.value} 
-                                  className="group relative cursor-pointer"
-                                >
-                                  <input
-                                    type="radio"
-                                    name={`question-${i}`}
-                                    value={opt.value}
-                                    checked={isSelected}
-                                    onChange={() => handleOptionChange(i, opt.value)}
-                                    className="sr-only"
-                                  />
-                                  <div className={`relative flex items-center p-5 rounded-xl border-2 transition-all duration-300 transform ${
-                                    isSelected
-                                      ? 'border-[#7AA7F2] bg-gradient-to-r from-[#4D86E0]/30 to-[#7AA7F2]/20 shadow-xl shadow-[#4D86E0]/30 scale-105 bg-white/20'
-                                      : 'border-white/30 bg-white/10 hover:border-[#7AA7F2]/70 hover:bg-white/20 hover:scale-102 backdrop-blur-sm'
-                                  }`}>
-                                    <div className={`w-6 h-6 rounded-full border-2 mr-4 flex items-center justify-center transition-all duration-300 ${
-                                      isSelected 
-                                        ? 'border-[#7AA7F2] bg-[#7AA7F2] shadow-lg shadow-[#4D86E0]/40' 
-                                        : 'border-white/50 group-hover:border-[#7AA7F2]/70'
+                          {/* Scale Labels */}
+                          <div className="flex justify-between mb-4 text-sm text-white/80 font-medium">
+                            <span>Strongly Disagree</span>
+                            <span>Strongly Agree</span>
+                          </div>
+                          
+                          {/* Options Bar Container */}
+                          <div className="relative">
+                            {/* Background Track */}
+                            <div className="h-16 bg-white/10 rounded-2xl backdrop-blur-sm border border-white/20 shadow-inner relative overflow-hidden">
+                              <div className="absolute inset-0 bg-gradient-to-r from-red-500/20 via-yellow-500/20 via-blue-500/20 via-green-500/20 to-emerald-500/20"></div>
+                            </div>
+                            
+                            {/* Options */}
+                            <div className="absolute inset-0 flex">
+                              {options.map((opt, optIndex) => {
+                                const isSelected = answers[i]?.selectedOption === opt.value;
+                                const width = `${100 / options.length}%`;
+                                
+                                return (
+                                  <label 
+                                    key={opt.value} 
+                                    className="group relative cursor-pointer flex-1 flex items-center justify-center"
+                                    style={{ width }}
+                                  >
+                                    <input
+                                      type="radio"
+                                      name={`question-${i}`}
+                                      value={opt.value}
+                                      checked={isSelected}
+                                      onChange={() => handleOptionChange(i, opt.value)}
+                                      className="sr-only"
+                                    />
+                                    
+                                    {/* Option Button */}
+                                    <div className={`relative w-12 h-12 rounded-full border-3 transition-all duration-300 transform flex items-center justify-center ${
+                                      isSelected
+                                        ? 'border-white bg-gradient-to-r from-[#4D86E0] to-[#7AA7F2] shadow-xl shadow-[#4D86E0]/50 scale-125 z-10'
+                                        : 'border-white/50 bg-white/20 hover:border-white hover:bg-white/30 hover:scale-110 backdrop-blur-sm'
                                     }`}>
+                                      <span className={`font-bold text-lg transition-all duration-300 ${
+                                        isSelected ? 'text-white drop-shadow-lg' : 'text-white/70 group-hover:text-white'
+                                      }`}>
+                                        {opt.value}
+                                      </span>
+                                      
                                       {isSelected && (
-                                        <div className="w-3 h-3 bg-white rounded-full animate-scale-in"></div>
-                                      )}
-                                    </div>
-                                    <span className={`text-lg font-semibold transition-all duration-300 ${
-                                      isSelected ? 'text-white drop-shadow-lg' : 'text-white/80 group-hover:text-white'
-                                    }`}>
-                                      {opt.label}
-                                    </span>
-                                    {isSelected && (
-                                      <div className="ml-auto">
-                                        <div className="w-8 h-8 bg-[#7AA7F2] rounded-full flex items-center justify-center animate-scale-in shadow-lg">
-                                          <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                        <div className="absolute -top-2 -right-2 w-6 h-6 bg-emerald-400 rounded-full flex items-center justify-center animate-scale-in shadow-lg">
+                                          <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
                                             <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                                           </svg>
                                         </div>
+                                      )}
+                                    </div>
+                                    
+                                    {/* Hover Label */}
+                                    <div className={`absolute -bottom-12 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none ${
+                                      isSelected ? 'opacity-100' : ''
+                                    }`}>
+                                      <div className="bg-black/80 text-white text-xs px-3 py-1 rounded-lg backdrop-blur-sm whitespace-nowrap">
+                                        {opt.label}
                                       </div>
-                                    )}
-                                  </div>
-                                </label>
-                              );
-                            })}
+                                    </div>
+                                  </label>
+                                );
+                              })}
+                            </div>
                           </div>
+                          
+                          {/* Selected Option Label */}
+                          {answers[i] && (
+                            <div className="mt-8 text-center animate-fadeIn">
+                              <div className="inline-block bg-white/20 backdrop-blur-sm rounded-xl px-6 py-3 border border-white/30">
+                                <span className="text-white font-semibold text-lg">
+                                  {options.find(opt => opt.value === answers[i].selectedOption)?.label}
+                                </span>
+                              </div>
+                            </div>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -282,6 +311,10 @@ export default function SelfAssessmentPage() {
         
         .hover\\:scale-102:hover {
           transform: scale(1.02);
+        }
+        
+        .border-3 {
+          border-width: 3px;
         }
       `}</style>
     </div>

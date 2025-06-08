@@ -6,7 +6,8 @@ import { FocusCards } from "@/components/ui/focus-cards";
 import { ContainerTextFlip } from "@/components/ui/container-text-flip";
 import Music from "../Music/page";
 import Cards from "../Cards/page";
-import { InfiniteMovingCards } from "@/components/ui/infinite-moving-cards";import SelfAssessmentCard from "../SelfAssessmentCard/page";
+import { InfiniteMovingCards } from "@/components/ui/infinite-moving-cards";
+import SelfAssessmentCard from "../SelfAssessmentCard/page";
 import Navbar from "@/sections/navbar";
 import Footer from "@/sections/footer";
 
@@ -14,6 +15,7 @@ export default function Home() {
   const router = useRouter();
   const [isVisible, setIsVisible] = useState(false);
   const [name, setName] = useState("User");
+  const [showPopup, setShowPopup] = useState(false);
 
   const quotes = [
     {
@@ -91,16 +93,89 @@ export default function Home() {
 
   useEffect(() => {
     setIsVisible(true);
+    // Show popup after a short delay to ensure the component is rendered
+    const timer = setTimeout(() => {
+      setShowPopup(true);
+    }, 1500);
+    
+    return () => clearTimeout(timer);
   }, []);
+
+  const handleClosePopup = () => {
+    setShowPopup(false);
+  };
+
+  const handlePopupButtonClick = () => {
+    setShowPopup(false);
+    router.push("/pages/AboutYou");
+  };
 
   return (
     <AuroraBackground className="w-full">
-      
-      <main className="min-h-screen flex flex-col " id="top">
-      <Navbar />
+      <main className="min-h-screen flex flex-col relative" id="top">
+        <Navbar />
+
+        {/* Recommendation Popup */}
+        {showPopup && (
+          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+            <div className="relative">
+              {/* Pointer Arrow */}
+              <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-8 border-l-transparent border-r-transparent border-t-white"></div>
+              
+              {/* Popup Content */}
+              <div className="bg-white rounded-2xl shadow-2xl p-6 max-w-sm mx-auto transform animate-bounce-in relative">
+                {/* Close Button */}
+                <button
+                  onClick={handleClosePopup}
+                  className="absolute top-3 right-3 text-gray-400 hover:text-gray-600 transition-colors"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
+                  </svg>
+                </button>
+
+                {/* Recommendation Icon */}
+                <div className="flex justify-center mb-4">
+                  <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center">
+                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                  </div>
+                </div>
+
+                {/* Title */}
+                <h3 className="text-xl font-bold text-gray-800 text-center mb-3">
+                  Welcome to Your Journey! 🌟
+                </h3>
+
+                {/* Message */}
+                <p className="text-gray-600 text-center mb-6 leading-relaxed">
+                  We highly recommend completing your profile as much as possible to get personalized recommendations and make the most of your mental wellness experience.
+                </p>
+
+                {/* Action Buttons */}
+                <div className="flex gap-3">
+                  <button
+                    onClick={handlePopupButtonClick}
+                    className="flex-1 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold py-3 px-4 rounded-xl hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+                  >
+                    Let's Go! →
+                  </button>
+                  <button
+                    onClick={handleClosePopup}
+                    className="px-4 py-3 text-gray-500 hover:text-gray-700 font-medium transition-colors"
+                  >
+                    Later
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Hero Section */}
-        <section className="w-full pt-24 pb-26">
-          <div className="max-w-7xl mx-auto px-4 grid lg:grid-cols-2 gap-16 items-center">
+        <section className="w-full pt-24 pb-16 relative z-10">
+          <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
             {/* Text Section */}
             <div
               className={`flex flex-col gap-6 transition-all duration-700 ${
@@ -118,12 +193,17 @@ export default function Home() {
                 <ContainerTextFlip />
               </p>
               <button
+                id="about-you-button"
                 onClick={() => router.push("/pages/AboutYou")}
-                className="rounded-lg px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-700 text-white font-medium hover:scale-105 transition-transform"
+                className="rounded-xl px-8 py-4 bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold hover:scale-105 transition-all duration-300 shadow-xl hover:shadow-2xl w-fit relative"
               >
                 Tell us more about yourself →
+                {/* Pulsing indicator when popup is visible */}
+                {showPopup && (
+                  <div className="absolute -top-2 -right-2 w-4 h-4 bg-red-500 rounded-full animate-pulse"></div>
+                )}
               </button>
-              <p className="text-lg text-white font-light max-w-md">
+              <p className="text-lg text-white/80 font-light max-w-md leading-relaxed">
                 Experience a sanctuary designed for your mental wellness
                 journey. Where luxury meets mindfulness.
               </p>
@@ -166,86 +246,120 @@ export default function Home() {
         </section>
 
         {/* Focus Cards Section */}
-        <section id="FocusCards">
-        <div className="w-screen bg-gradient-to-b from-[#1D5DCB] via-[#4D86E0] to-[#7AA7F2]  px-6">
-          {/* <div className="w-screen  px-6"> */}
-          <div className="flex justify-center items-center w-full">
-            <FocusCards />
+        <section id="FocusCards" className="relative z-10 py-16">
+          <div className="w-full bg-gradient-to-b from-transparent via-blue-500/10 to-blue-600/20 backdrop-blur-sm">
+            <div className="max-w-7xl mx-auto px-6">
+              <div className="flex justify-center items-center w-full">
+                <FocusCards />
+              </div>
+            </div>
           </div>
-        </div>
         </section>
 
-        <div className="bg-white w-max h-2"> </div>
+        {/* Section Divider */}
+        <div className="w-full h-px bg-gradient-to-r from-transparent via-white/20 to-transparent my-8"></div>
 
-        <section id="SelfAssessment">
-          <div className="w-screen bg-transparent px-6 py-2">
+        {/* Self Assessment Section */}
+        <section id="SelfAssessment" className="relative z-10 py-8">
+          <div className="max-w-7xl mx-auto px-6">
+            {/* Section Header */}
+            <section id="SelfAssessment" className="relative z-10 py-16">
+              <div className="max-w-7xl mx-auto px-6">
+                {/* Clean, Stylish Header */}
+                <div className="text-center">
+                  <h2 className="text-4xl font-semibold tracking-tight text-slate-800">
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-pink-500 to-rose-500">
+                      Self-Assessment
+                    </span>{" "}
+                    Dashboard
+                  </h2>
+                  <p className="mt-3 text-white text-base">
+                    Quickly reflect on your mental well-being and track your
+                    personal growth.
+                  </p>
+                </div>
+              </div>
+            </section>
+            {/* Card Component */}
             <SelfAssessmentCard />
-            
           </div>
-          
         </section>
+
+        {/* Section Divider */}
+        <div className="w-full h-px bg-gradient-to-r from-transparent via-white/20 to-transparent my-8"></div>
 
         {/* Music Section */}
-        <section className="bg-transparent py-20 relative overflow-visible w-screen left-0 right-0 fixed top-0 z-0" id="music">
+        <section className="relative z-10 py-20 overflow-hidden" id="music">
           {/* Ambient Blurs */}
-          <div className="absolute inset-0">
-            <div className="absolute top-20 left-20 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl"></div>
-            <div className="absolute bottom-20 right-20 w-80 h-80 bg-blue-500/15 rounded-full blur-2xl delay-1000"></div>
+          <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute top-20 left-20 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse"></div>
+            <div className="absolute bottom-20 right-20 w-80 h-80 bg-blue-500/15 rounded-full blur-2xl animate-pulse delay-1000"></div>
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-purple-500/5 to-blue-500/5 rounded-full blur-3xl"></div>
           </div>
 
-          <div className="relative z-10 max-w-7xl mx-auto px-4 text-center">
-            <h2 className="text-5xl lg:text-6xl font-thin text-transparent bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text pb-2">
-              Feeling
-            </h2>
-            <h3 className="text-4xl lg:text-5xl font-bold text-transparent bg-gradient-to-r from-purple-300 via-pink-300 to-blue-300 bg-clip-text mt-2">
-              Overwhelmed?
-            </h3>
-            <p className="text-2xl text-white/70 mt-8">
-              Immerse yourself in our carefully curated
-            </p>
-            <p className="text-2xl text-transparent bg-gradient-to-r from-purple-200 to-blue-200 bg-clip-text">
-              symphony of tranquility
-            </p>
+          <div className="relative z-10 max-w-7xl mx-auto px-6 text-center">
+            <div className="mb-12">
+              <h2 className="text-5xl lg:text-6xl font-thin text-transparent bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text pb-2">
+                Feeling
+              </h2>
+              <h3 className="text-4xl lg:text-5xl font-bold text-transparent bg-gradient-to-r from-purple-300 via-pink-300 to-blue-300 bg-clip-text mt-2">
+                Overwhelmed?
+              </h3>
+              <div className="flex flex-col items-center mt-8 space-y-2">
+                <p className="text-xl text-white/70">
+                  Immerse yourself in our carefully curated
+                </p>
+                <p className="text-xl text-transparent bg-gradient-to-r from-purple-200 to-blue-200 bg-clip-text font-medium">
+                  symphony of tranquility
+                </p>
+              </div>
+            </div>
 
             {/* Music Player */}
-            <div className="mt-12 max-w-5xl mx-auto bg-white/5 rounded-3xl p-6 border border-white/10 backdrop-blur-xl shadow-xl relative">
+            <div className="mt-12 max-w-5xl mx-auto bg-white/5 rounded-3xl p-8 border border-white/10 backdrop-blur-xl shadow-2xl relative">
               <Music />
             </div>
 
             {/* Footer Text */}
-            <p className="text-white/40 text-sm uppercase mt-12 tracking-widest">
+            <p className="text-white/40 text-sm uppercase mt-12 tracking-widest font-light">
               Let the music heal your soul
             </p>
           </div>
 
           {/* Floating Notes */}
-          <div className="absolute inset-0 pointer-events-none">
-            <div className="absolute top-1/4 left-1/4 text-white/10 animate-float">
+          <div className="absolute inset-0 pointer-events-none overflow-hidden">
+            <div className="absolute top-1/4 left-1/4 text-white/10 animate-float text-4xl">
               ♪
             </div>
-            <div className="absolute top-3/4 right-1/4 text-white/10 animate-float-delayed">
+            <div className="absolute top-3/4 right-1/4 text-white/10 animate-float-delayed text-3xl">
               ♫
             </div>
-            <div className="absolute top-1/2 right-1/3 text-white/10 animate-float-slow">
+            <div className="absolute top-1/2 right-1/3 text-white/10 animate-float-slow text-4xl">
               ♪
             </div>
-            <div className="absolute bottom-1/4 left-1/3 text-white/10 animate-float-delayed">
+            <div className="absolute bottom-1/4 left-1/3 text-white/10 animate-float-delayed text-3xl">
               ♫
             </div>
           </div>
         </section>
 
-        <section id="quotes" className="overflow-x-hidden">
-          <div className="w-screen bg-gradient-to-b from-[#1D5DCB] via-[#4D86E0] to-[#7AA7F2] px-6 py-12 scroll-">
-            <div className="max-w-5xl mx-auto text-center mb-8">
-              <h2 className="text-4xl font-bold text-white drop-shadow-md">
-                Get going with a motivational quote!
-              </h2>
+        {/* Section Divider */}
+        <div className="w-full h-px bg-gradient-to-r from-transparent via-white/20 to-transparent my-8"></div>
+
+        {/* Quotes Section */}
+        <section id="quotes" className="relative z-10 py-16 overflow-hidden">
+          <div className="w-full bg-gradient-to-b from-blue-600/10 via-blue-500/15 to-blue-600/10 backdrop-blur-sm">
+            <div className="max-w-7xl mx-auto px-6 py-12">
+              <div className="text-center mb-12">
+                <h2 className="text-4xl lg:text-5xl font-bold text-white drop-shadow-lg mb-4">
+                  Get going with a motivational quote!
+                </h2>
+                <div className="w-24 h-1 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full mx-auto"></div>
+              </div>
+              <InfiniteMovingCards items={quotes} speed="slow" />
             </div>
-            <InfiniteMovingCards items={quotes} speed="slow" />
           </div>
         </section>
-
 
         {/* Animations */}
         <style jsx global>{`
@@ -284,20 +398,47 @@ export default function Home() {
               transform: translateY(-15px) rotate(90deg);
             }
           }
+          @keyframes bounce-in {
+            0% {
+              transform: scale(0.3) rotate(-10deg);
+              opacity: 0;
+            }
+            50% {
+              transform: scale(1.05) rotate(5deg);
+            }
+            70% {
+              transform: scale(0.9) rotate(-2deg);
+            }
+            100% {
+              transform: scale(1) rotate(0deg);
+              opacity: 1;
+            }
+          }
           .animate-spin-slow {
             animation: spin-slow 20s linear infinite;
           }
           .animate-float {
             animation: float 6s ease-in-out infinite;
-            font-size: 2rem;
           }
           .animate-float-delayed {
             animation: float-delayed 8s ease-in-out infinite;
-            font-size: 1.5rem;
           }
           .animate-float-slow {
             animation: float-slow 10s ease-in-out infinite;
-            font-size: 1.8rem;
+          }
+          .animate-bounce-in {
+            animation: bounce-in 0.6s ease-out forwards;
+          }
+
+          /* Smooth scrolling */
+          html {
+            scroll-behavior: smooth;
+          }
+
+          /* Hide scrollbar but keep functionality */
+          ::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
           }
         `}</style>
       </main>
