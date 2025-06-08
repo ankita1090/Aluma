@@ -8,6 +8,7 @@ import Music from "../Music/page";
 import Cards from "../Cards/page";
 import { InfiniteMovingCards } from "@/components/ui/infinite-moving-cards";import SelfAssessmentCard from "../SelfAssessmentCard/page";
 import Navbar from "@/sections/navbar";
+import Footer from "@/sections/footer";
 
 export default function Home() {
   const router = useRouter();
@@ -177,7 +178,7 @@ export default function Home() {
         <div className="bg-white w-max h-2"> </div>
 
         <section id="SelfAssessment">
-          <div className="w-screen bg-gradient-to-b from-[#1D5DCB] via-[#4D86E0] to-[#7AA7F2] px-6 py-2">
+          <div className="w-screen bg-transparent px-6 py-2">
             <SelfAssessmentCard />
             
           </div>
@@ -300,6 +301,7 @@ export default function Home() {
           }
         `}</style>
       </main>
+      <Footer />
     </AuroraBackground>
   );
 }

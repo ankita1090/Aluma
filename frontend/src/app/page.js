@@ -50,15 +50,37 @@ export default function Home() {
               </p>
 
               {/* Enhanced Buttons */}
-              <div className="flex flex-col sm:flex-row gap-4 mt-8">
-                <button
-                  onClick={() => router.push("/pages/signup")}
-                  className="group relative px-8 py-4 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold text-lg shadow-2xl hover:shadow-cyan-500/25 transition-all duration-300 transform hover:scale-105 hover:-translate-y-1"
-                >
-                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-cyan-400 to-blue-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                  <span className="relative">Begin Your Journey</span>
-                </button>
-              </div>
+              <div className="flex flex-col sm:flex-row gap-6 mt-8">
+        {/* Primary CTA Button */}
+        <button
+          onClick={() => router.push("/pages/signup")}
+          className="group relative px-10 py-5 rounded-2xl bg-gradient-to-r from-cyan-500 via-blue-600 to-blue-700 text-white font-bold text-lg shadow-2xl hover:shadow-cyan-400/30 transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 border border-cyan-400/20"
+        >
+          <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-cyan-400 via-blue-500 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <div className="absolute inset-0 rounded-2xl bg-white/10 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+          <span className="relative flex items-center gap-2">
+            Begin Your Journey
+            <svg className="w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            </svg>
+          </span>
+        </button>
+
+        {/* Secondary Button */}
+        <button
+          onClick={() => router.push("/pages/aboutus")}
+          className="group relative px-10 py-5 rounded-2xl bg-gradient-to-r from-slate-700 via-slate-800 to-blue-900 text-white font-semibold text-lg shadow-2xl hover:shadow-blue-500/20 transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 border border-blue-400/30"
+        >
+          <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-600 via-cyan-500 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <div className="absolute inset-0 rounded-2xl bg-white/5 opacity-100 group-hover:opacity-20 transition-opacity duration-300"></div>
+          <span className="relative flex items-center gap-2">
+            <svg className="w-5 h-5 transform group-hover:rotate-12 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            About Us
+          </span>
+        </button>
+      </div>
             </div>
 
             {/* Right Side: Luxury Logo Section */}

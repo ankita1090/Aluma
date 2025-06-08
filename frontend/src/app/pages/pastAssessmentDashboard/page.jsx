@@ -27,9 +27,16 @@ export default function PastAssessmentDashboard({ result }) {
       const parsedData = JSON.parse(storedData);
       setData(parsedData);
       console.log("Parsed assessment data:", parsedData);   
+    //   console.log("storing parsed as data : ", data);
     //   console.log("analysis : ", parsedData.suggestions[0].analysis);
     }
   }, []);
+
+  useEffect(() => {
+    if (data) {
+      console.log("Data was updated:", data);
+    }
+  }, [data]);
 
   // Fetch user name from backend
   useEffect(() => {
@@ -60,24 +67,25 @@ export default function PastAssessmentDashboard({ result }) {
     fetchUserData();
   }, []);
 
+
   // Final data source: session data > fallback to props
   const finalresult = data?.result || {};
   const {
     stress = 0,
     focus = 0,
     positivity = 0,
-  } = result?.categoryScores || {};
+  } = data?.categoryScores || {};
   const {
     analysis = "",
     advice = [],
     importantReminders = [],
-  } = result?.aiAnalysis || {};
+  } = data?.suggestions?.[0] || {};
 
   const stressPercentage = (stress / 10) * 100;
   const focusPercentage = (focus / 10) * 100;
   const positivityPercentage = (positivity / 10) * 100;
-  const totalPercentage = result?.totalScore
-    ? (result.totalScore / 50) * 100
+  const totalPercentage = data?.totalScore
+    ? (data.totalScore / 50) * 100
     : 0;
 
   // Circle component (optional)
@@ -132,7 +140,7 @@ export default function PastAssessmentDashboard({ result }) {
             <div>
               <h1 className="text-2xl font-bold text-slate-800">Hey {name}!</h1>
               <p className="text-slate-600">
-                Here's the complete overview of the self-assessment
+                Here's the complete overview of your last self-assessment
               </p>
             </div>
           </div>
@@ -195,7 +203,7 @@ export default function PastAssessmentDashboard({ result }) {
                       Analysis
                     </h3>
                     <p className="text-blue-700 text-sm leading-relaxed">
-                      {parsedData.suggestions[0].analysis}
+                      {analysis}
                     </p>
                   </div>
                 )}
@@ -213,7 +221,7 @@ export default function PastAssessmentDashboard({ result }) {
                             {idx + 1}
                           </div>
                           <p className="text-emerald-800 text-sm leading-relaxed pt-1">
-                            {point}
+                            {advice}
                           </p>
                         </div>
                       ))}
@@ -232,7 +240,7 @@ export default function PastAssessmentDashboard({ result }) {
                         <div key={idx} className="flex items-start space-x-3">
                           <div className="w-2 h-2 bg-amber-400 rounded-full flex-shrink-0 mt-3"></div>
                           <p className="text-amber-800 text-sm leading-relaxed">
-                            {parsedData.suggestions[0].importantReminders}
+                            {importantReminders}
                           </p>
                         </div>
                       ))}
@@ -267,9 +275,9 @@ export default function PastAssessmentDashboard({ result }) {
                     <TrendingUp className="w-4 h-4 text-violet-600" />
                   </div>
                   <div>
-                    <p className="text-slate-600 text-xs">Activity</p>
+                    <p className="text-slate-600 text-xs">Questions</p>
                     <p className="font-semibold text-slate-800 text-sm">
-                      16h 30m
+                      10
                     </p>
                   </div>
                 </div>
