@@ -37,7 +37,7 @@ export default function Navbar() {
       {/* Main Navbar */}
       <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
         isScrolled 
-          ? "bg-white/10 backdrop-blur-lg border-b border-white/10" 
+          ?? "bg-black/60 backdrop-blur-md shadow-md"
           : "bg-transparent"
       }`}>
         <div className="max-w-6xl mx-auto px-6">
@@ -53,15 +53,15 @@ export default function Navbar() {
                 <button
                   key={item.id}
                   onClick={() => scrollToSection(item.id)}
-                  className={`relative px-4 py-2 text-sm font-medium transition-all duration-200 ${
-                    activeSection === item.id
-                      ? "text-[#bc356d]"
-                      : "text-white/80 hover:text-[#EC4899]"
-                  }`}
+                 className={`relative px-4 py-2 text-sm font-semibold transition-all duration-200 ${
+                  activeSection === item.id
+                  ? "text-[#ec4899]"
+                  : "text-white hover:text-[#F472B6]"
+                }`}
                 >
                   {item.label}
                   {activeSection === item.id && (
-                    <div className="absolute bottom-0 left-0 w-full h-0.5 bg-[#bc3e73] rounded-full"></div>
+                  <div className="absolute bottom-0 left-0 w-full h-1 bg-[#ec4899] rounded-full transition-all duration-300"></div>
                   )}
                 </button>
               ))}
@@ -94,11 +94,12 @@ export default function Navbar() {
               <button
                 key={item.id}
                 onClick={() => scrollToSection(item.id)}
-                className={`w-full text-left px-4 py-3 rounded-xl font-medium transition duration-200 ${
-                  activeSection === item.id
-                    ? "text-[#BE185D] bg-white/20"
-                    : "text-white/90 hover:text-white hover:bg-white/10"
-                }`}
+              className={`w-full text-left px-4 py-3 rounded-xl font-semibold transition duration-200 ${
+              activeSection === item.id
+              ? "text-[#EC4899] bg-white/30"
+              : "text-white hover:text-[#F472B6] hover:bg-white/20"
+              }`}
+
               >
                 {item.label}
               </button>
